@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Pip">
+  <!-- app-icon.svg on Apple's macOS icon grid: an 824 body centred in 1024, corner radius 185, a soft shadow.
+       Source of src-tauri/icons/icon.icns: pnpm tauri icon app-icon-macos.svg -o <folder>, then copy icon.icns. -->
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity=".28"/>
+    </filter>
+  </defs>
+  <g transform="translate(100 100) scale(3.21875)">
+    <rect width="256" height="256" rx="57.6" fill="#dfeee6" filter="url(#shadow)"/>
+    <circle cx="128" cy="140" r="78" fill="#7cc4a0"/>
+    <circle cx="128" cy="150" r="56" fill="#f6fbf8"/>
+    <path d="M128 62c-14-24-34-30-44-26 10 6 18 18 22 30z" fill="#4f9c77"/>
+    <circle cx="106" cy="140" r="9" fill="#24352c"/>
+    <circle cx="150" cy="140" r="9" fill="#24352c"/>
+    <circle cx="109" cy="137" r="3" fill="#fff"/>
+    <circle cx="153" cy="137" r="3" fill="#fff"/>
+    <path d="M112 168q16 14 32 0" stroke="#24352c" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <circle cx="92" cy="162" r="8" fill="#f2b8b0" opacity=".7"/>
+    <circle cx="164" cy="162" r="8" fill="#f2b8b0" opacity=".7"/>
+  </g>
+</svg>
