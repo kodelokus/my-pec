@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="pip" aria-hidden="true">
+  <!-- Pip in parts. pip.css poses them from the data attributes pip.ts sets; ids starting "pip0-" are renamed per copy. -->
+  <defs>
+    <radialGradient id="pip0-body" cx=".36" cy=".24" r=".86">
+      <stop offset="0" stop-color="#bceed3"/>
+      <stop offset=".45" stop-color="#82cda8"/>
+      <stop offset="1" stop-color="#56a682"/>
+    </radialGradient>
+    <clipPath id="pip0-face">
+      <path d="M128 108C144 94 188 100 188 148C188 188 160 208 128 208C96 208 68 188 68 148C68 100 112 94 128 108Z"/>
+    </clipPath>
+  </defs>
+
+  <g class="pip-tile">
+    <rect class="pip-day" width="256" height="256" rx="56"/>
+    <circle class="pip-glow" cx="128" cy="142" r="104"/>
+    <g class="pip-night">
+      <rect width="256" height="256" rx="56" fill="#27384d"/>
+      <circle cx="46" cy="50" r="15" fill="#f8e9a9"/>
+      <circle cx="53" cy="45" r="13" fill="#27384d"/>
+      <g class="pip-stars" fill="#f8e9a9">
+        <path d="M28 97.5Q29.8 102.2 34.5 104Q29.8 105.8 28 110.5Q26.2 105.8 21.5 104Q26.2 102.2 28 97.5Z"/>
+        <path d="M226 106.5Q227.5 110.5 231.5 112Q227.5 113.5 226 117.5Q224.5 113.5 220.5 112Q224.5 110.5 226 106.5Z"/>
+        <path d="M154 13Q155.7 17.3 160 19Q155.7 20.7 154 25Q152.3 20.7 148 19Q152.3 17.3 154 13Z"/>
+      </g>
+    </g>
+  </g>
+  <ellipse class="pip-shadow" cx="128" cy="232" rx="60" ry="8"/>
+
+  <g class="pip-pose">
+    <g class="pip-body">
+      <ellipse cx="103" cy="225" rx="17" ry="9" fill="#4a9873"/>
+      <ellipse cx="153" cy="225" rx="17" ry="9" fill="#4a9873"/>
+      <path class="pip-arm pip-arm-l" d="M60 158q-18 6-21 22"/>
+      <path class="pip-arm pip-arm-r" d="M196 158q18 6 21 22"/>
+
+      <g class="pip-sprout">
+        <path d="M128 86C126 72 126 62 129 52" fill="none" stroke="#3f8f68" stroke-width="7" stroke-linecap="round"/>
+        <g class="pip-leaf-l">
+          <path d="M129 52C112 54 92 44 84 22C108 18 128 30 129 52Z" fill="#3f9a6c"/>
+          <path d="M129 52Q104 38 84 22C108 18 128 30 129 52Z" fill="#74cf9c"/>
+        </g>
+        <g class="pip-leaf-r">
+          <path d="M129 52C140 36 156 28 174 32C170 48 152 58 129 52Z" fill="#3f9a6c"/>
+          <path d="M129 52C140 36 156 28 174 32Q150 40 129 52Z" fill="#74cf9c"/>
+        </g>
+      </g>
+
+      <path d="M128 70C171 70 205 104 206 151C207 197 175 224 128 224C81 224 49 197 50 151C51 104 85 70 128 70Z" fill="url(#pip0-body)"/>
+      <ellipse cx="92" cy="97" rx="15" ry="7.5" transform="rotate(-38 92 97)" fill="#fff" opacity=".4"/>
+      <circle cx="72" cy="119" r="4" fill="#fff" opacity=".3"/>
+      <g data-fx="sweat">
+        <path d="M186 92c4 6 6.5 9.5 6.5 13a6.5 6.5 0 0 1-13 0c0-3.5 2.5-7 6.5-13z" fill="#b5e2f8" stroke="#5aa9d6" stroke-width="2"/>
+        <circle cx="183.5" cy="105" r="1.8" fill="#fff"/>
+      </g>
+
+      <g class="pip-face">
+        <path d="M128 108C144 94 188 100 188 148C188 188 160 208 128 208C96 208 68 188 68 148C68 100 112 94 128 108Z" fill="#f9fcf5"/>
+        <g clip-path="url(#pip0-face)">
+          <g class="pip-eyes">
+            <g class="pip-pupils">
+              <g class="pip-eye pip-eye-l">
+                <ellipse cx="101" cy="144" rx="12" ry="15" fill="#22332b"/>
+                <ellipse cx="101" cy="150.5" rx="7.5" ry="6.5" fill="#3f8266"/>
+                <circle class="pip-shine" cx="96.5" cy="137.5" r="4.6" fill="#fff"/>
+                <circle cx="105.5" cy="150" r="2.1" fill="#fff" opacity=".9"/>
+              </g>
+              <g class="pip-eye pip-eye-r">
+                <ellipse cx="155" cy="144" rx="12" ry="15" fill="#22332b"/>
+                <ellipse cx="155" cy="150.5" rx="7.5" ry="6.5" fill="#3f8266"/>
+                <circle class="pip-shine" cx="150.5" cy="137.5" r="4.6" fill="#fff"/>
+                <circle cx="159.5" cy="150" r="2.1" fill="#fff" opacity=".9"/>
+              </g>
+            </g>
+          </g>
+          <g fill="#f9fcf5">
+            <path class="pip-lid pip-lid-tl" d="M80 92H122V129Q101 124 80 129Z"/>
+            <path class="pip-lid pip-lid-tr" d="M134 92H176V129Q155 124 134 129Z"/>
+            <path class="pip-lid pip-lid-bl" d="M80 200H122V166Q101 156 80 166Z"/>
+            <path class="pip-lid pip-lid-br" d="M134 200H176V166Q155 156 134 166Z"/>
+          </g>
+        </g>
+        <ellipse class="pip-cheek" cx="82" cy="169" rx="10" ry="6.5" fill="#f8a9a0"/>
+        <ellipse class="pip-cheek" cx="174" cy="169" rx="10" ry="6.5" fill="#f8a9a0"/>
+        <g data-fx="tear">
+          <path d="M90 158c3.5 5 5.5 8 5.5 11a5.5 5.5 0 0 1-11 0c0-3 2-6 5.5-11z" fill="#a6dcf7" stroke="#5aa9d6" stroke-width="2"/>
+          <circle cx="88" cy="169" r="1.5" fill="#fff"/>
+        </g>
+        <g class="pip-shut" fill="none" stroke="#22332b" stroke-width="5" stroke-linecap="round">
+          <path data-shut="wink" d="M90 149q11-12 22 0"/>
+          <path data-shut="sleep" d="M90 145q11 9 22 0M144 145q11 9 22 0"/>
+        </g>
+        <g class="pip-brows" fill="none" stroke="#22332b" stroke-width="4.5" stroke-linecap="round">
+          <path class="pip-brow-l" d="M90 121Q100 114 112 118"/>
+          <path class="pip-brow-r" d="M166 121Q156 114 144 118"/>
+        </g>
+        <g class="pip-mouth" stroke="#22332b" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+          <path data-face="neutral" d="M117 171q11 9 22 0"/>
+          <g data-face="happy">
+            <path d="M108 166Q128 172 148 166C148 182 140 191 128 191C116 191 108 182 108 166Z" fill="#5a2a31" stroke="none"/>
+            <path d="M116 184Q128 174 140 184Q134 190.5 128 190.5Q122 190.5 116 184Z" fill="#f58f8f" stroke="none"/>
+            <path d="M108 166Q128 172 148 166C148 182 140 191 128 191C116 191 108 182 108 166Z" stroke-width="4.5"/>
+          </g>
+          <g data-face="playful">
+            <path d="M125 173v6a8 8 0 0 0 16 0v-8z" fill="#f58f8f" stroke-width="3.5"/>
+            <path d="M133 177v5" stroke="#d96f75" stroke-width="2.5"/>
+            <path d="M112 168q16 13 32 0"/>
+          </g>
+          <path data-face="concerned" d="M115 178q6.5-7 13-1t13-1"/>
+          <path data-face="sad" d="M114 182q14-13 28 0"/>
+          <ellipse data-face="surprised" cx="128" cy="177" rx="8" ry="10" fill="#5a2a31" stroke-width="4.5"/>
+          <g data-face="open">
+            <ellipse cx="128" cy="176" rx="11" ry="9.5" fill="#5a2a31" stroke="none"/>
+            <path d="M120 180.5q8-5.5 16 0q-3 4.5-8 4.5t-8-4.5z" fill="#f58f8f" stroke="none"/>
+            <ellipse cx="128" cy="176" rx="11" ry="9.5" stroke-width="4.5"/>
+          </g>
+          <ellipse data-face="asleep" cx="128" cy="175" rx="4.5" ry="5.5" fill="#5a2a31" stroke-width="3.5"/>
+          <path data-face="thinking" d="M123 176q8-5 15-2"/>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <g class="pip-fx">
+    <g data-fx="sparkles" fill="#f5b532">
+      <path d="M44 85Q47 93 55 96Q47 99 44 107Q41 99 33 96Q41 93 44 85Z"/>
+      <path d="M214 64Q216.2 69.8 222 72Q216.2 74.2 214 80Q211.8 74.2 206 72Q211.8 69.8 214 64Z"/>
+      <path d="M224 113Q225.4 116.6 229 118Q225.4 119.4 224 123Q222.6 119.4 219 118Q222.6 116.6 224 113Z"/>
+    </g>
+    <g data-fx="wink" fill="#f5b532">
+      <path d="M52 108Q54.5 114.5 61 117Q54.5 119.5 52 126Q49.5 119.5 43 117Q49.5 114.5 52 108Z"/>
+    </g>
+    <g data-fx="sparks" fill="none" stroke="#f39a1f" stroke-width="5" stroke-linecap="round">
+      <path d="M62 84l-14-10"/>
+      <path d="M50 108l-16-4"/>
+      <path d="M194 84l14-10"/>
+      <path d="M206 108l16-4"/>
+    </g>
+    <g data-fx="zzz" fill="none" stroke="#7f9fc4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M192 74h9l-9 11h9"/>
+      <path d="M206 52h11.7l-11.7 14.3h11.7"/>
+      <path d="M222 26h14.4l-14.4 17.6h14.4"/>
+    </g>
+    <g data-fx="dots" fill="#fff" stroke="#4f9c77" stroke-width="2.5">
+      <circle cx="186" cy="70" r="4.5"/>
+      <circle cx="202" cy="52" r="6.5"/>
+      <circle cx="222" cy="30" r="9"/>
+    </g>
+  </g>
+</svg>

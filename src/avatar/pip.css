@@ -1,0 +1,701 @@
+/* Pip, posed from the attributes pip.ts sets on the drawing (pip.svg): data-expr for the eyes, brows, sprout, body
+   and effects, data-face for the mouth, data-activity, data-still for reduced motion (avatar FR-021), and
+   data-weather for how it feels the weather (weather FR-015). */
+.pip {
+  --pip-tile: #e0f0e6;
+  --pip-glow: rgba(255, 255, 255, 0.55);
+  --pip-spring: cubic-bezier(0.3, 1.5, 0.5, 1);
+  overflow: visible;
+}
+
+@media (prefers-color-scheme: dark) {
+  .pip {
+    --pip-tile: #26352e;
+    --pip-glow: rgba(255, 255, 255, 0.06);
+  }
+}
+
+.pip * {
+  transform-box: view-box;
+}
+
+/* Holding still wins over every pose below, whatever its selector: nothing moves, the face still changes. */
+.pip[data-still="true"],
+.pip[data-still="true"] * {
+  /* biome-ignore lint/complexity/noImportantStyles: a reduced-motion request must beat every animation here. */
+  animation: none !important;
+  /* biome-ignore lint/complexity/noImportantStyles: and every transition. */
+  transition: none !important;
+}
+
+/* The tile behind Pip; at night while it sleeps. Beside the conversation and floating, Pip stands on its own. */
+.pip-day {
+  fill: var(--pip-tile);
+}
+
+.pip-glow {
+  fill: var(--pip-glow);
+}
+
+.pip-night {
+  opacity: 0;
+  transition: opacity 0.8s;
+}
+
+.pip-shadow {
+  fill: #16201b;
+  opacity: 0.14;
+}
+
+.dock .pip-tile,
+.floating-view .pip-tile {
+  display: none;
+}
+
+.floating-view .pip {
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.28));
+}
+
+/* At rest: breathing, blinking, the sprout swaying, the face turning a little toward the pointer (AVA-8). */
+.pip-pose {
+  transform-origin: 128px 228px;
+  transition: transform 0.35s var(--pip-spring);
+}
+
+.pip-body {
+  transform-origin: 128px 228px;
+  animation: pip-breathe 4s ease-in-out infinite;
+}
+
+.pip-arm {
+  fill: none;
+  stroke: #6fbe98;
+  stroke-width: 16;
+  stroke-linecap: round;
+  transition: transform 0.35s var(--pip-spring);
+}
+
+.pip-arm-l {
+  transform-origin: 60px 158px;
+}
+
+.pip-arm-r {
+  transform-origin: 196px 158px;
+}
+
+.pip-sprout {
+  transform-origin: 128px 86px;
+  animation: pip-sway 6s ease-in-out infinite;
+}
+
+.pip-leaf-l,
+.pip-leaf-r {
+  transform-origin: 129px 52px;
+  transition: transform 0.4s var(--pip-spring);
+}
+
+.pip-face {
+  transform: translate(calc(var(--look-x, 0) * 3px), calc(var(--look-y, 0) * 2px));
+  transition: transform 0.2s ease-out;
+}
+
+.pip-pupils {
+  transform: translate(calc(var(--look-x, 0) * 3px), calc(var(--look-y, 0) * 2.5px));
+  transition: transform 0.2s ease-out;
+}
+
+.pip-eyes {
+  transform-origin: 128px 144px;
+  animation: pip-blink 5s infinite;
+}
+
+.pip-eye,
+.pip-shine,
+.pip-brows > path,
+.pip-mouth > [data-face],
+.pip-cheek,
+.pip-fx path,
+.pip-fx circle {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.pip-eye,
+.pip-lid,
+.pip-brows > path,
+.pip-cheek {
+  transition:
+    transform 0.25s var(--pip-spring),
+    opacity 0.15s;
+}
+
+.pip-lid-tl,
+.pip-lid-bl {
+  transform-origin: 101px 144px;
+}
+
+.pip-lid-tr,
+.pip-lid-br {
+  transform-origin: 155px 144px;
+}
+
+.pip-brows {
+  opacity: 0.85;
+}
+
+.pip-cheek {
+  opacity: 0.75;
+}
+
+/* One mouth, one pair of closed eyes and one set of effects at a time. */
+.pip-mouth > [data-face],
+.pip [data-shut],
+.pip [data-fx] {
+  opacity: 0;
+}
+
+.pip-mouth > [data-face] {
+  transform: scale(0.6);
+  transition:
+    opacity 0.07s,
+    transform 0.14s var(--pip-spring);
+}
+
+.pip [data-fx] {
+  transition: opacity 0.25s;
+}
+
+.pip:not([data-face]) [data-face="neutral"],
+.pip[data-face="neutral"] [data-face="neutral"],
+.pip[data-face="happy"] [data-face="happy"],
+.pip[data-face="playful"] [data-face="playful"],
+.pip[data-face="concerned"] [data-face="concerned"],
+.pip[data-face="sad"] [data-face="sad"],
+.pip[data-face="surprised"] [data-face="surprised"],
+.pip[data-face="open"] [data-face="open"],
+.pip[data-face="asleep"] [data-face="asleep"],
+.pip[data-face="thinking"] [data-face="thinking"] {
+  opacity: 1;
+  transform: none;
+}
+
+.pip[data-expr="happy"] [data-fx="sparkles"],
+.pip[data-expr="playful"] [data-fx="wink"],
+.pip[data-expr="concerned"] [data-fx="sweat"],
+.pip[data-expr="sad"] [data-fx="tear"],
+.pip[data-expr="surprised"] [data-fx="sparks"],
+.pip[data-expr="asleep"] [data-fx="zzz"],
+.pip[data-expr="thinking"] [data-fx="dots"],
+.pip[data-expr="playful"] [data-shut="wink"],
+.pip[data-expr="asleep"] [data-shut="sleep"] {
+  opacity: 1;
+}
+
+/* Happy: smiling eyes, arms up, the sprout perked, a hop. */
+.pip[data-expr="happy"] .pip-pose {
+  transform: translateY(-3px);
+  animation: pip-hop 0.5s ease-out;
+}
+
+.pip[data-expr="happy"] .pip-lid-bl,
+.pip[data-expr="happy"] .pip-lid-br {
+  transform: translateY(-10px);
+}
+
+.pip[data-expr="happy"] .pip-brows > path {
+  transform: translateY(-4px);
+}
+
+.pip[data-expr="happy"] .pip-cheek {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.pip[data-expr="happy"] .pip-arm-l {
+  transform: rotate(80deg);
+}
+
+.pip[data-expr="happy"] .pip-arm-r {
+  transform: rotate(-80deg);
+}
+
+.pip[data-expr="happy"] .pip-leaf-l,
+.pip[data-activity="listening"] .pip-leaf-l {
+  transform: rotate(12deg);
+}
+
+.pip[data-expr="happy"] .pip-leaf-r,
+.pip[data-activity="listening"] .pip-leaf-r {
+  transform: rotate(-12deg);
+}
+
+.pip[data-expr="happy"] .pip-sprout {
+  animation-duration: 1.6s;
+}
+
+.pip[data-expr="happy"] [data-fx="sparkles"] > * {
+  animation: pip-twinkle 1.6s ease-in-out infinite;
+}
+
+.pip [data-fx] > :nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.pip [data-fx] > :nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+/* Playful: a wink, the tongue out, a tilt that rocks. */
+.pip[data-expr="playful"] .pip-pose {
+  animation: pip-rock 1.8s ease-in-out infinite;
+}
+
+.pip[data-expr="playful"] .pip-eye-l {
+  opacity: 0;
+}
+
+.pip[data-expr="playful"] .pip-brow-l {
+  transform: translateY(3px) rotate(8deg);
+}
+
+.pip[data-expr="playful"] .pip-brow-r {
+  transform: translateY(-6px) rotate(8deg);
+}
+
+.pip[data-expr="playful"] .pip-cheek {
+  opacity: 1;
+}
+
+.pip[data-expr="playful"] .pip-arm-r {
+  transform: rotate(-70deg);
+}
+
+.pip[data-expr="playful"] .pip-sprout {
+  animation-duration: 2s;
+}
+
+.pip[data-expr="playful"] [data-fx="wink"] > * {
+  animation: pip-twinkle 1.4s ease-in-out infinite;
+}
+
+/* Concerned: worried brows and lids, a sweat drop, the leaves lowered. */
+.pip[data-expr="concerned"] .pip-lid-tl {
+  transform: translateY(4px) rotate(-10deg);
+}
+
+.pip[data-expr="concerned"] .pip-lid-tr {
+  transform: translateY(4px) rotate(10deg);
+}
+
+.pip[data-expr="concerned"] .pip-brow-l {
+  transform: translateY(-1px) rotate(-20deg);
+}
+
+.pip[data-expr="concerned"] .pip-brow-r {
+  transform: translateY(-1px) rotate(20deg);
+}
+
+.pip[data-expr="concerned"] .pip-leaf-l {
+  transform: rotate(-22deg);
+}
+
+.pip[data-expr="concerned"] .pip-leaf-r {
+  transform: rotate(22deg);
+}
+
+.pip[data-expr="concerned"] .pip-cheek {
+  opacity: 0.45;
+}
+
+.pip[data-expr="concerned"] [data-fx="sweat"] {
+  animation: pip-drip 2.2s ease-in infinite;
+}
+
+/* Sad: drooping lids, brows and leaves, wet eyes and a tear, the body sunk. */
+.pip[data-expr="sad"] .pip-pose {
+  transform: translateY(3px) scale(1.02, 0.97);
+}
+
+.pip[data-expr="sad"] .pip-lid-tl {
+  transform: translateY(7px) rotate(-18deg);
+}
+
+.pip[data-expr="sad"] .pip-lid-tr {
+  transform: translateY(7px) rotate(18deg);
+}
+
+.pip[data-expr="sad"] .pip-brow-l {
+  transform: translateY(2px) rotate(-28deg);
+}
+
+.pip[data-expr="sad"] .pip-brow-r {
+  transform: translateY(2px) rotate(28deg);
+}
+
+.pip[data-expr="sad"] .pip-shine {
+  animation: pip-wet 1.4s ease-in-out infinite;
+}
+
+.pip[data-expr="sad"] .pip-leaf-l {
+  transform: rotate(-56deg);
+}
+
+.pip[data-expr="sad"] .pip-leaf-r {
+  transform: rotate(56deg);
+}
+
+.pip[data-expr="sad"] .pip-arm-l {
+  transform: rotate(-14deg);
+}
+
+.pip[data-expr="sad"] .pip-arm-r {
+  transform: rotate(14deg);
+}
+
+.pip[data-expr="sad"] .pip-cheek {
+  opacity: 0.4;
+}
+
+.pip[data-expr="sad"] [data-fx="tear"] {
+  animation: pip-drip 2.6s ease-in infinite;
+}
+
+/* Surprised: wide eyes, brows up, the sprout standing, a jump. */
+.pip[data-expr="surprised"] .pip-pose {
+  animation: pip-jump 0.45s ease-out;
+}
+
+.pip[data-expr="surprised"] .pip-eye {
+  transform: scale(1.14);
+}
+
+.pip[data-expr="surprised"] .pip-brows > path {
+  transform: translateY(-9px);
+}
+
+.pip[data-expr="surprised"] .pip-leaf-l {
+  transform: rotate(18deg);
+}
+
+.pip[data-expr="surprised"] .pip-leaf-r {
+  transform: rotate(-18deg);
+}
+
+.pip[data-expr="surprised"] .pip-arm-l {
+  transform: rotate(60deg);
+}
+
+.pip[data-expr="surprised"] .pip-arm-r {
+  transform: rotate(-60deg);
+}
+
+.pip[data-expr="surprised"] [data-fx="sparks"] > * {
+  animation: pip-spark 1.2s ease-out infinite;
+}
+
+/* Thinking: the eyes up and aside, one brow raised, a tilt, a trail of thought (architecture 9.3). */
+.pip[data-expr="thinking"] .pip-pose {
+  transform: rotate(3deg);
+}
+
+.pip[data-expr="thinking"] .pip-pupils {
+  transform: translate(4px, -5px);
+}
+
+.pip[data-expr="thinking"] .pip-brow-l {
+  transform: translateY(2px) rotate(6deg);
+}
+
+.pip[data-expr="thinking"] .pip-brow-r {
+  transform: translateY(-7px) rotate(-6deg);
+}
+
+.pip[data-expr="thinking"] .pip-mouth {
+  transform: translateX(4px);
+}
+
+.pip[data-expr="thinking"] .pip-sprout {
+  animation-name: pip-ponder;
+}
+
+.pip[data-expr="thinking"] [data-fx="dots"] > * {
+  animation: pip-dot 1.5s ease-in-out infinite;
+}
+
+/* Asleep: eyes shut, everything lowered and slow, the night around it. */
+.pip[data-expr="asleep"] .pip-pose {
+  transform: translateY(3px) scale(1.03, 0.96);
+}
+
+.pip[data-expr="asleep"] .pip-eye {
+  opacity: 0;
+}
+
+.pip[data-expr="asleep"] .pip-brows > path {
+  transform: translateY(4px);
+}
+
+.pip[data-expr="asleep"] .pip-leaf-l {
+  transform: rotate(-36deg);
+}
+
+.pip[data-expr="asleep"] .pip-leaf-r {
+  transform: rotate(36deg);
+}
+
+.pip[data-expr="asleep"] .pip-body {
+  animation-duration: 7s;
+}
+
+.pip[data-expr="asleep"] .pip-sprout {
+  animation-duration: 9s;
+}
+
+.pip[data-expr="asleep"] .pip-night {
+  opacity: 1;
+}
+
+.pip[data-expr="asleep"] .pip-stars > * {
+  animation: pip-twinkle 3s ease-in-out infinite;
+}
+
+.pip[data-expr="asleep"] [data-fx="zzz"] > * {
+  animation: pip-zzz 3.6s ease-in-out infinite;
+}
+
+.pip[data-expr="asleep"] [data-fx="zzz"] > :nth-child(2) {
+  animation-delay: 0.7s;
+}
+
+.pip[data-expr="asleep"] [data-fx="zzz"] > :nth-child(3) {
+  animation-delay: 1.4s;
+}
+
+/* Listening leans in with wider eyes; speaking bobs with the words. */
+.pip[data-activity="listening"] .pip-pose {
+  transform: rotate(-3deg);
+}
+
+.pip[data-activity="listening"] .pip-eye {
+  transform: scale(1.07);
+}
+
+.pip[data-activity="listening"] .pip-brows > path {
+  transform: translateY(-4px);
+}
+
+.pip[data-activity="speaking"] .pip-body {
+  animation: pip-bob 0.6s ease-in-out infinite;
+}
+
+/* Feeling the weather (weather FR-015), after the moods so it wins where both move the same part. */
+
+/* Squint in the sun: the lids narrow the eyes, whatever the mood. */
+.pip[data-weather~="squint"] .pip-lid-tl,
+.pip[data-weather~="squint"] .pip-lid-tr {
+  transform: translateY(9px);
+}
+
+.pip[data-weather~="squint"] .pip-lid-bl,
+.pip[data-weather~="squint"] .pip-lid-br {
+  transform: translateY(-6px);
+}
+
+/* Shelter in the rain: the sprout's leaves fold down over the head like an umbrella, the arms come up. */
+.pip[data-weather~="shelter"] .pip-leaf-l {
+  transform: rotate(-38deg);
+}
+
+.pip[data-weather~="shelter"] .pip-leaf-r {
+  transform: rotate(38deg);
+}
+
+.pip[data-weather~="shelter"] .pip-sprout {
+  animation: none;
+}
+
+.pip[data-weather~="shelter"] .pip-arm-l {
+  transform: rotate(60deg);
+}
+
+.pip[data-weather~="shelter"] .pip-arm-r {
+  transform: rotate(-60deg);
+}
+
+/* Shiver in the cold: a small, quick shake. */
+.pip[data-weather~="shiver"] .pip-pose {
+  animation: pip-shiver 0.18s linear infinite;
+}
+
+/* Flinch at the thunder: a start on the same six-second beat as the flash (weather.css). */
+.pip[data-weather~="flinch"] .pip-body {
+  animation: pip-flinch 6s ease-out infinite;
+}
+
+@keyframes pip-shiver {
+  25% {
+    transform: translateX(-1.5px);
+  }
+  75% {
+    transform: translateX(1.5px);
+  }
+}
+
+@keyframes pip-flinch {
+  0%,
+  12%,
+  100% {
+    transform: none;
+  }
+  3% {
+    transform: translateY(-6px) scale(1.04, 0.96);
+  }
+}
+
+@keyframes pip-breathe {
+  50% {
+    transform: scale(1.015, 1.03);
+  }
+}
+
+@keyframes pip-bob {
+  50% {
+    transform: translateY(-2px) scale(1.01, 1.02);
+  }
+}
+
+@keyframes pip-blink {
+  0%,
+  93%,
+  100% {
+    transform: scaleY(1);
+  }
+  95.5% {
+    transform: scaleY(0.08);
+  }
+}
+
+@keyframes pip-sway {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes pip-ponder {
+  0%,
+  100% {
+    transform: rotate(-12deg);
+  }
+  50% {
+    transform: rotate(-7deg);
+  }
+}
+
+@keyframes pip-hop {
+  35% {
+    transform: translateY(-13px) scale(0.98, 1.03);
+  }
+  70% {
+    transform: translateY(0) scale(1.03, 0.97);
+  }
+}
+
+@keyframes pip-jump {
+  30% {
+    transform: translateY(-12px) scale(0.96, 1.05);
+  }
+  65% {
+    transform: translateY(0) scale(1.03, 0.97);
+  }
+}
+
+@keyframes pip-rock {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes pip-twinkle {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.6) rotate(-10deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1) rotate(10deg);
+  }
+}
+
+@keyframes pip-spark {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  25%,
+  70% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+}
+
+@keyframes pip-drip {
+  0%,
+  20% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@keyframes pip-wet {
+  50% {
+    transform: scale(1.25);
+  }
+}
+
+@keyframes pip-dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.5;
+    transform: scale(0.85);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes pip-zzz {
+  0% {
+    opacity: 0;
+    transform: translate(-6px, 6px) scale(0.7);
+  }
+  25%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(6px, -8px);
+  }
+}

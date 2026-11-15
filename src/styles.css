@@ -1,0 +1,1468 @@
+/* Tokens from design/001-app-shell-onboarding.figcraft (Theme, and the Soft mode of Dimensions). */
+:root {
+  color-scheme: light dark;
+  --color-bg: #f6f7f5;
+  --color-surface: #ffffff;
+  --color-surface-muted: #eef2ef;
+  --color-border: #d3dbd6;
+  --color-text: #16201b;
+  --color-text-muted: #56635c;
+  --color-accent: #2f7d5b;
+  --color-accent-hover: #256649;
+  --color-on-accent: #ffffff;
+  --color-accent-subtle: #e2f1e9;
+  --color-danger: #b3261e;
+  --color-danger-subtle: #fbeae8;
+  --color-warning: #7a5200;
+  --color-warning-subtle: #fdf3dc;
+  --color-info: #1f5f8b;
+  --color-info-subtle: #e5f0f8;
+  --color-focus: #2f7d5b;
+  --color-scrim: rgba(22, 32, 27, 0.4);
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --shadow-card: 0 1px 3px rgba(22, 32, 27, 0.08);
+  --radius-full: 999px;
+  --icons: "Segoe Fluent Icons", "Segoe MDL2 Assets";
+  font:
+    14px / 1.5 "Segoe UI",
+    system-ui,
+    sans-serif;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #131715;
+    --color-surface: #1c221f;
+    --color-surface-muted: #242b27;
+    --color-border: #38423d;
+    --color-text: #e7edea;
+    --color-text-muted: #a2aea8;
+    --color-accent: #5fbf92;
+    --color-accent-hover: #7bcda6;
+    --color-on-accent: #0d1a13;
+    --color-accent-subtle: #1d3328;
+    --color-danger: #f2b8b5;
+    --color-danger-subtle: #3b1f1d;
+    --color-warning: #f0c46c;
+    --color-warning-subtle: #3a2f17;
+    --color-info: #9ccbef;
+    --color-info-subtle: #1a2b38;
+    --color-focus: #5fbf92;
+    --color-scrim: rgba(0, 0, 0, 0.65);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* PER-7: the accent tint washes down from the top of the wizard and the main window. */
+#root:has(.wash) {
+  background: linear-gradient(var(--color-accent-subtle), var(--color-bg) 55%);
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+/* Title in the app bar, Heading on cards. */
+h1 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+code {
+  font-family: "Cascadia Mono", Consolas, monospace;
+  font-size: 13px;
+}
+
+/* Settings' app bar, and the wizard's footer buttons with no bar behind them, around a scrolling content area. */
+.app-bar,
+.footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-5);
+}
+
+.app-bar {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.app-bar h1 {
+  flex: 1;
+}
+
+.footer {
+  padding: var(--space-4) var(--space-6);
+}
+
+.footer .end {
+  margin-left: auto;
+  display: flex;
+  gap: var(--space-2);
+}
+
+.content {
+  flex: 1;
+  overflow: auto;
+  padding: var(--space-7) var(--space-5);
+}
+
+.content.wash {
+  padding: var(--space-5) var(--space-6) var(--space-4);
+}
+
+.column {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.column.wide {
+  max-width: 896px;
+}
+
+.column.main {
+  height: 100%;
+}
+
+.muted,
+.hint {
+  color: var(--color-text-muted);
+}
+
+.hint {
+  font-size: 12px;
+  margin-top: calc(-1 * var(--space-3));
+}
+
+/* Fields: a visible label above a full-width control. */
+label,
+legend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-weight: 600;
+}
+
+input:not([type="radio"]),
+textarea,
+select {
+  width: 100%;
+  font: inherit;
+  font-weight: 400;
+  color: inherit;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 7px var(--space-3);
+}
+
+textarea {
+  font-family: "Cascadia Mono", Consolas, monospace;
+  font-size: 13px;
+  resize: vertical;
+  line-height: 1.6;
+  min-height: 220px;
+}
+
+input:not([type="radio"]):focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border: 2px solid var(--color-focus);
+  padding: 6px 11px;
+}
+
+input[aria-invalid="true"],
+input[aria-invalid="true"]:focus {
+  border-color: var(--color-danger);
+}
+
+input:disabled,
+textarea:disabled {
+  background: var(--color-surface-muted);
+  color: var(--color-text-muted);
+}
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+/* Buttons: Secondary by default, with Primary, Danger and Subtle variants. */
+button {
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 7px var(--space-4);
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  background: var(--color-surface-muted);
+}
+
+button.primary {
+  color: var(--color-on-accent);
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+button.primary:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+}
+
+button.danger {
+  color: var(--color-surface);
+  background: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+button.danger:hover:not(:disabled) {
+  background: var(--color-danger);
+  filter: brightness(0.92);
+}
+
+button.subtle {
+  color: var(--color-accent);
+  background: none;
+  border-color: transparent;
+  padding-inline: var(--space-2);
+}
+
+/* A round icon button, named by aria-label with a matching tooltip. */
+button.icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  font-family: var(--icons);
+  font-weight: 400;
+  font-size: 16px;
+  border-radius: var(--radius-full);
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* The design's two-tone focus ring: a surface gap, then the focus colour. */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.copy-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-3);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+}
+
+/* Alerts: an icon, the message, then its action. */
+.alert {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid;
+  border-radius: var(--radius-md);
+}
+
+.alert::before {
+  font-family: var(--icons);
+  line-height: 21px;
+}
+
+.alert > :not(p) {
+  grid-column: 2;
+  justify-self: start;
+}
+
+.alert.error {
+  color: var(--color-text);
+  border-color: var(--color-danger);
+  background: var(--color-danger-subtle);
+}
+
+.alert.error::before {
+  content: "\ea39";
+  color: var(--color-danger);
+}
+
+.alert.warning {
+  border-color: var(--color-warning);
+  background: var(--color-warning-subtle);
+}
+
+.alert.warning::before {
+  content: "\e7ba";
+  color: var(--color-warning);
+}
+
+.alert.info {
+  border-color: var(--color-info);
+  background: var(--color-info-subtle);
+}
+
+.alert.info::before {
+  content: "\e946";
+  color: var(--color-info);
+}
+
+.alert.success {
+  border-color: var(--color-accent);
+  background: var(--color-accent-subtle);
+}
+
+.alert.success::before {
+  content: "\e930";
+  color: var(--color-accent);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+/* Step dots: the current step is the wide dot, and the caption says it in words (onboarding FR-009). */
+.dots {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.dots ol {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dots li {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-border);
+}
+
+.dots .done,
+.dots [aria-current="step"] {
+  background: var(--color-accent);
+}
+
+.dots [aria-current="step"] {
+  width: 24px;
+}
+
+.caption {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+/* Speech bubbles: the companion's lines and the conversation's messages. */
+.bubble {
+  max-width: 85%;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-lg);
+  overflow-wrap: anywhere;
+}
+
+/* The companion's line: portrait, then a speech bubble with a tail pointing at it (PER-1, PER-2). */
+.line {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+}
+
+.line > .bubble {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.line > .bubble::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: 33px;
+  width: 10px;
+  height: 10px;
+  background: inherit;
+  transform: rotate(45deg);
+}
+
+.line.small {
+  gap: var(--space-3);
+}
+
+.line.small > .bubble {
+  flex: 0 1 auto;
+  max-width: 85%;
+}
+
+.line.small > .bubble::before {
+  top: 15px;
+}
+
+/* A further bubble of the same reply: set under the first, without the portrait or the tail. */
+.portrait-space {
+  width: 40px;
+  flex: none;
+}
+
+.line.follow > .bubble::before {
+  content: none;
+}
+
+.bubble.voice {
+  padding: 14px 18px;
+  font-size: 16px;
+  line-height: 24px;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+/* Content that belongs to the line sits under its bubble, not under the portrait. */
+.under {
+  margin-left: calc(88px + 22px);
+}
+
+.under.small {
+  margin-left: calc(40px + var(--space-3));
+}
+
+@media (max-width: 639px) {
+  .line:not(.small) .portrait {
+    width: 56px;
+    height: 56px;
+  }
+
+  .line:not(.small) > .bubble::before {
+    top: 21px;
+  }
+
+  .under:not(.small) {
+    margin-left: 0;
+  }
+}
+
+/* Template and character options: radio cards. */
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.option {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  font-weight: 400;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.option:has(:checked) {
+  background: var(--color-accent-subtle);
+  border: 2px solid var(--color-accent);
+  padding: 11px;
+}
+
+.option:has(:focus-visible) {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.option input {
+  margin: 3px 0 0;
+  accent-color: var(--color-accent);
+}
+
+.option input:focus-visible {
+  outline: none;
+}
+
+.option > span {
+  font-weight: 600;
+}
+
+.option small {
+  display: block;
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.characters {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.character {
+  flex-direction: column-reverse;
+  align-items: center;
+  width: 152px;
+}
+
+.character span {
+  display: flex;
+  gap: var(--space-2);
+  font-weight: 600;
+}
+
+.portrait {
+  flex: none;
+  border-radius: var(--radius-full);
+  background: var(--color-accent-subtle);
+}
+
+/* The soul step: templates beside the editor when the window is wide enough. */
+.soul {
+  display: grid;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+@media (min-width: 880px) {
+  .soul {
+    grid-template-columns: minmax(240px, 2fr) 3fr;
+  }
+}
+
+.soul .editor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.meter {
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-muted);
+  overflow: hidden;
+}
+
+.meter::-webkit-progress-bar {
+  background: var(--color-surface-muted);
+}
+
+.meter::-webkit-progress-value {
+  background: var(--color-accent);
+}
+
+.meter.over::-webkit-progress-value {
+  background: var(--color-warning);
+}
+
+.count {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-top: calc(-1 * var(--space-3));
+}
+
+.count.over {
+  color: var(--color-warning);
+  font-weight: 600;
+}
+
+/* The main window: a greeting by time of day and the companion's presence above the conversation (PER-5). */
+.greeting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.greeting > div {
+  flex: 1;
+}
+
+.greeting h1 {
+  font-size: 28px;
+  line-height: 36px;
+}
+
+/* The conversation: a scrolling log of bubbles above the composer, on a card. */
+.chat {
+  flex: 1;
+  min-height: 0;
+  gap: var(--space-3);
+  border: 0;
+  box-shadow: var(--shadow-card);
+}
+
+.log {
+  flex: 1;
+  min-height: 240px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-2);
+}
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+}
+
+.entry:has(.user) {
+  align-items: flex-end;
+}
+
+.entry > button {
+  margin-left: calc(40px + var(--space-3));
+}
+
+.bubble.user {
+  white-space: pre-wrap;
+  color: var(--color-on-accent);
+  background: var(--color-accent);
+  border-bottom-right-radius: var(--radius-sm);
+}
+
+.bubble.companion {
+  background: var(--color-accent-subtle);
+}
+
+.bubble.companion > :first-child {
+  margin-top: 0;
+}
+
+.bubble.companion > :last-child {
+  margin-bottom: 0;
+}
+
+.bubble.companion p,
+.bubble.companion ul,
+.bubble.companion ol,
+.bubble.companion pre,
+.bubble.companion table,
+.bubble.companion blockquote {
+  margin: var(--space-2) 0;
+}
+
+.bubble.companion pre {
+  overflow-x: auto;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.bubble.companion table {
+  border-collapse: collapse;
+}
+
+.bubble.companion th,
+.bubble.companion td {
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-border);
+}
+
+.bubble.companion blockquote {
+  padding-left: var(--space-3);
+  border-left: 3px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.bubble.companion a {
+  color: var(--color-accent);
+}
+
+.badge {
+  display: inline-block;
+  margin-top: var(--space-1);
+  padding: 0 var(--space-2);
+  font-size: 12px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+}
+
+/* What the companion saved during a turn (memory FR-008), under its reply. */
+.marks {
+  list-style: none;
+  margin: var(--space-2) 0 0;
+  padding: var(--space-2) 0 0;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.marks .failed {
+  color: var(--color-danger);
+}
+
+button.link {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: start;
+  text-decoration: underline;
+  text-decoration-color: var(--color-border);
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+button.link:hover {
+  color: var(--color-accent);
+}
+
+.thinking {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.chat-note {
+  align-self: center;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid var(--color-border);
+}
+
+/* The compaction divider and the summary it opens to. */
+.compacted {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.compacted .divider button {
+  font-size: 12px;
+}
+
+.compacted-summary {
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+}
+
+.composer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-2);
+}
+
+.composer textarea {
+  flex: 1;
+  min-height: 0;
+  resize: none;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.composer .muted {
+  flex: 1;
+}
+
+.composer-refusal {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+/* Dialogs: modal over a scrim. */
+.scrim {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--space-5);
+  background: var(--color-scrim);
+}
+
+.dialog {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  max-width: 440px;
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+
+.dialog .row {
+  justify-content: flex-end;
+}
+
+.loading {
+  margin: auto;
+}
+
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--color-accent-subtle);
+  border-top-color: var(--color-accent);
+  border-radius: var(--radius-full);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* A checkbox with its label on one line. */
+label.check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: normal;
+}
+
+/* The memory browser (memory FR-025): the files beside the open one, stacked on a narrow window. */
+.memory {
+  display: grid;
+  grid-template-columns: minmax(180px, 240px) 1fr;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+@media (max-width: 639px) {
+  .memory {
+    grid-template-columns: 1fr;
+  }
+}
+
+.file-list,
+.entries,
+.hits {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.memory-files {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+button.file {
+  width: 100%;
+  text-align: start;
+  border-color: transparent;
+  background: none;
+}
+
+button.file.current {
+  background: var(--color-accent-subtle);
+}
+
+.memory-doc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.memory-doc input[type="search"] {
+  flex: 1;
+}
+
+.entries li {
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.entries li.current {
+  background: var(--color-accent-subtle);
+}
+
+.doc-text {
+  margin: 0;
+  white-space: pre-wrap;
+  font: inherit;
+}
+
+/* The companion's world (the world feature): the picture fills its card; nothing animates. */
+.world-stage {
+  padding: 0;
+  overflow: hidden;
+}
+
+.world-picture {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  max-height: 70vh;
+  touch-action: none;
+}
+
+.world-item:focus-visible {
+  outline: none;
+}
+
+.world-selection {
+  fill: none;
+  stroke: var(--color-focus);
+  stroke-width: 2;
+  pointer-events: none;
+}
+
+.world-facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--space-1) var(--space-4);
+  margin: 0 0 var(--space-3);
+}
+
+.world-facts dd {
+  margin: 0;
+}
+
+.world-controls {
+  padding: var(--space-2);
+}
+
+.world-map:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
+
+/* The tooltip over an item, and the diary list. Pixel drawings stay crisp when scaled. */
+.world-map {
+  position: relative;
+}
+
+.world-picture use {
+  image-rendering: pixelated;
+}
+
+.world-tip {
+  position: absolute;
+  transform: translate(-50%, calc(-100% - 6px));
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 240px;
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-card);
+  font-size: 13px;
+  z-index: 1;
+}
+
+.world-time {
+  padding: var(--space-2);
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.world-time input {
+  vertical-align: middle;
+}
+
+.world-makeup-bar {
+  display: flex;
+  height: 22px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: var(--space-2);
+  font-size: 12px;
+}
+
+.world-makeup-bar span {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-1);
+  overflow: hidden;
+  white-space: nowrap;
+  background: var(--color-accent-subtle);
+  border-right: 2px solid var(--color-surface);
+}
+
+.world-makeup-bar span:nth-child(even) {
+  background: var(--color-info-subtle);
+}
+
+.world-makeup {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+}
+
+.world-tip-keywords {
+  color: var(--color-text-muted);
+}
+
+.world-diary-day ul {
+  list-style: none;
+  margin: 0 0 var(--space-2);
+  padding: 0;
+}
+
+.world-diary-day li {
+  margin-bottom: var(--space-1);
+}
+
+.world-story {
+  margin: 2px 0 0;
+  color: var(--color-text-muted);
+}
+
+.world-odds {
+  border-collapse: collapse;
+  margin: var(--space-1) 0;
+}
+
+.world-odds th,
+.world-odds td {
+  text-align: left;
+  padding: 2px var(--space-3) 2px 0;
+  font-weight: normal;
+}
+
+.world-odds tr.picked td {
+  font-weight: 600;
+}
+
+.world-day {
+  list-style: none;
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+}
+
+.world-list h3 {
+  font-size: 14px;
+  margin: var(--space-2) 0 var(--space-1);
+}
+
+.world-list button[aria-pressed="true"] {
+  font-weight: 600;
+  text-decoration-color: var(--color-focus);
+}
+
+/* A narrow window has no room for the map: the list carries the whole world (world FR-031). */
+@media (max-width: 479px) {
+  .world-stage {
+    display: none;
+  }
+}
+
+/* The companion asleep while it dreams, and the dream journal. */
+.line.asleep {
+  position: relative;
+}
+
+.line.asleep .portrait {
+  filter: grayscale(0.6) brightness(0.85);
+}
+
+.line.asleep .zzz {
+  position: absolute;
+  left: 30px;
+  top: -6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.dream-runs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: 13px;
+}
+
+.dream-diary {
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+/* The character. The still portrait shows the mood as a soft ring (avatar FR-016). */
+.avatar {
+  position: relative;
+  flex: none;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+}
+
+.avatar > img,
+.avatar > canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.avatar > [hidden] {
+  display: none;
+}
+
+.avatar > img {
+  transition: box-shadow 0.3s;
+}
+
+.avatar[data-mood="happy"] > img,
+.avatar[data-mood="playful"] > img {
+  box-shadow: 0 0 0 4px var(--color-accent);
+}
+
+.avatar[data-mood="concerned"] > img {
+  box-shadow: 0 0 0 4px var(--color-warning);
+}
+
+.avatar[data-mood="sad"] > img {
+  box-shadow: 0 0 0 4px var(--color-info);
+}
+
+.avatar[data-mood="surprised"] > img {
+  box-shadow: 0 0 0 4px var(--color-danger);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .avatar > img {
+    transition: none;
+  }
+}
+
+@media (max-width: 639px) {
+  .line:not(.small) > .avatar {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+/* The docked character beside the conversation (AVA-3). */
+.with-avatar {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-5);
+  height: 100%;
+}
+
+.with-avatar > .column.main {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
+
+.dock {
+  position: relative;
+  flex: none;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: var(--space-6);
+}
+
+/* The character and its weather line stand in front of the weather sky (the weather feature). */
+.dock > :not(.weather-sky) {
+  position: relative;
+}
+
+/* weather FR-016: the weather in words under the character; kept in place when empty so nothing jumps. */
+.weather-line {
+  min-height: 1.4em;
+  margin: var(--space-2) 0 0;
+  text-align: center;
+}
+
+.weather-places {
+  list-style: none;
+  margin: var(--space-1) 0;
+  padding: 0;
+}
+
+@media (max-width: 899px) {
+  .dock {
+    display: none;
+  }
+}
+
+/* The floating window: only the character, on a transparent page (avatar R8). */
+html.floating,
+html.floating body {
+  background: transparent;
+  overflow: hidden;
+}
+
+.floating-view {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  cursor: grab;
+  user-select: none;
+}
+
+.floating-view:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
+
+/* The animated Pip is drawn into the figure; its parts and states are in avatar/pip.svg and avatar/pip.css. */
+.avatar > .figure,
+.avatar > .figure > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.avatar > .figure[hidden] {
+  display: none;
+}
+
+/* The lists of notes and alarms. */
+.ext-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ext-list > li {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4);
+}
+
+.ext-list .meta {
+  margin: var(--space-1) 0 0;
+}
+
+.ext-list > li.done,
+.ext-list > li.missed {
+  opacity: 0.7;
+}
+
+.editor .days {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.extension .hint {
+  margin: 0 0 var(--space-3);
+}
+
+/* One colour per note (extensions data 7). */
+.note-yellow {
+  --note: #fff4b8;
+}
+.note-green {
+  --note: #d9f2d0;
+}
+.note-blue {
+  --note: #d6e9fa;
+}
+.note-pink {
+  --note: #fadbe4;
+}
+.note-grey {
+  --note: #e6e8e7;
+}
+
+.ext-list > li[class*="note-"] {
+  border-left: 8px solid var(--note);
+}
+
+/* A sticky note on the desktop: the whole window, a bar that appears on hover (extensions R7). */
+html.note,
+html.note body {
+  overflow: hidden;
+  background: transparent;
+}
+
+.sticky {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  background: var(--note);
+  color: #1d1d1b;
+}
+
+.sticky-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  opacity: 0;
+  transition: opacity 120ms;
+  cursor: grab;
+  font-size: 12px;
+}
+
+.sticky:hover .sticky-bar,
+.sticky-bar:focus-within {
+  opacity: 1;
+}
+
+.sticky-bar .check {
+  margin-left: auto;
+}
+
+.swatch {
+  width: 16px;
+  height: 16px;
+  min-height: 0;
+  padding: 0;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: var(--radius-full);
+  background: var(--note);
+}
+
+.swatch[aria-pressed="true"] {
+  outline: 2px solid #1d1d1b;
+}
+
+.sticky textarea {
+  flex: 1;
+  resize: none;
+  border: none;
+  outline: none;
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.sticky-note {
+  margin: 0;
+  padding: var(--space-1) var(--space-3);
+  font-size: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticky-bar {
+    transition: none;
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@cubism/framework/*": ["vendor/cubism/Framework/src/*"]
+    },
+    "strict": false,
+    "noImplicitAny": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": false,
+    "useDefineForClassFields": false
+  },
+  "include": ["src/avatar/live2d", "src/avatar/virtual.d.ts", "vendor/cubism/Core/live2dcubismcore.d.ts"],
+  "exclude": []
+}

@@ -1,0 +1,21 @@
+[package]
+name = "pec-ext"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+# The bundled extensions' rules. Depends on pec-core alone (Principle VI, extensions R1).
+[dependencies]
+pec-core = { version = "0.1.0", path = "../pec-core" }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+sha2 = "0.11"
+time = "0.3"
+ts-rs = "12"
+
+[dev-dependencies]
+tempfile = "3.27.0"
+time = { version = "0.3", features = ["macros"] }

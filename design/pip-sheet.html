@@ -1,0 +1,105 @@
+<!doctype html>
+<!-- Pip's character sheet: every mood and activity, drawn live from src/avatar/pip.svg and pip.css.
+     Not part of the app. Run `pnpm dev` and open http://localhost:1420/design/pip-sheet.html
+     (add ?size=300 for a closer look, ?still=1 for reduced motion). -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Pip character sheet</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+    <style>
+      body { margin: 0; padding: 20px; }
+      h2 { font: 600 13px system-ui; margin: 18px 0 8px; }
+      .row { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end; }
+      .cell { display: flex; flex-direction: column; align-items: center; gap: 4px; font: 11px system-ui; color: var(--color-text-muted); }
+      .free .pip-tile { display: none; }
+    </style>
+  </head>
+  <body>
+    <p class="cell" style="align-items: flex-start">
+      <span>
+        <a href="?">Animated</a> · <a href="?still=1">Hold still</a> · <a href="?size=300">Large</a> · move the
+        pointer over a resting Pip to turn its face
+      </span>
+    </p>
+    <div id="app"></div>
+    <script type="module">
+      import { PipRenderer } from "/src/avatar/pip.ts";
+      const q = new URLSearchParams(location.search);
+      const size = Number(q.get("size") ?? 132);
+      const still = q.get("still") === "1";
+      const only = q.get("only");
+      const moods = ["neutral", "happy", "playful", "concerned", "sad", "surprised"];
+      const acts = ["listening", "thinking", "speaking", "sleeping"];
+      const app = document.getElementById("app");
+      const talkers = [];
+      async function cell(row, label, state, px = size, free = false) {
+        const c = document.createElement("div");
+        c.className = "cell";
+        const a = document.createElement("div");
+        a.className = "avatar" + (free ? " free" : "");
+        a.style.setProperty("--avatar-size", px + "px");
+        const f = document.createElement("div");
+        f.className = "figure";
+        a.append(f);
+        c.append(a, label);
+        row.append(c);
+        const r = new PipRenderer(f);
+        await r.load({ type: "static", character: "pip" });
+        const s = { activity: "idle", mood: "neutral", voice: 0, still, ...state };
+        r.setState(s);
+        if (s.activity === "speaking") talkers.push([r, s]);
+        if (s.activity === "idle" || s.activity === "listening") {
+          a.addEventListener("pointermove", (e) => {
+            const b = a.getBoundingClientRect();
+            r.pointer(((e.clientX - b.left) / b.width) * 2 - 1, ((e.clientY - b.top) / b.height) * 2 - 1);
+          });
+        }
+        return r;
+      }
+      function section(title) {
+        const h = document.createElement("h2");
+        h.textContent = title;
+        const row = document.createElement("div");
+        row.className = "row";
+        app.append(h, row);
+        return row;
+      }
+      if (only) {
+        const [activity, mood] = only.split(":");
+        const row = section(only);
+        await cell(row, only, { activity, mood: mood ?? "neutral" }, Number(q.get("size") ?? 400));
+      } else {
+        let row = section("Moods");
+        for (const mood of moods) await cell(row, mood, { mood });
+        row = section("Activities");
+        for (const activity of acts) await cell(row, activity, { activity });
+        await cell(row, "speaking, happy", { activity: "speaking", mood: "happy" });
+        await cell(row, "thinking, sad", { activity: "thinking", mood: "sad" });
+        row = section("Free-standing (dock, floating)");
+        for (const mood of ["neutral", "happy", "sad"]) await cell(row, mood, { mood }, 180, true);
+        await cell(row, "sleeping", { activity: "sleeping" }, 180, true);
+        await cell(row, "thinking", { activity: "thinking" }, 180, true);
+        row = section("Sizes");
+        for (const px of [32, 40, 56, 72, 88, 112]) await cell(row, px + "px", { mood: "happy" }, px);
+        for (const px of [32, 40, 72]) await cell(row, px + "px", { mood: "sad" }, px);
+        row = section("Still portraits (chat, 40px circle and large)");
+        for (const [src, px] of [["pip", 40], ["pip-sleeping", 40], ["pip", 132], ["pip-sleeping", 132]]) {
+          const c = document.createElement("div");
+          c.className = "cell";
+          const img = document.createElement("img");
+          img.className = "portrait";
+          img.width = img.height = px;
+          img.src = `/src/assets/characters/${src}.svg`;
+          c.append(img, src);
+          row.append(c);
+        }
+      }
+      let voice = 0;
+      setInterval(() => {
+        voice += 3;
+        for (const [r, s] of talkers) r.setState({ ...s, voice });
+      }, 120);
+    </script>
+  </body>
+</html>

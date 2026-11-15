@@ -1,0 +1,17 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "note",
+  "description": "A sticky note may only read, save and style its own note, hide itself, be dragged and read the interface language (extensions R7).",
+  "windows": ["note-*"],
+  "permissions": [
+    "core:event:default",
+    "core:window:allow-start-dragging",
+    "core:window:allow-start-resize-dragging",
+    "allow-note-read",
+    "allow-note-save",
+    "allow-note-style",
+    "allow-hide-note",
+    "allow-new-note",
+    "allow-language"
+  ]
+}

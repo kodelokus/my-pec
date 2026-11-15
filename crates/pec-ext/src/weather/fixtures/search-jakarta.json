@@ -1,0 +1,8 @@
+{
+  "results": [
+    { "id": 1642911, "name": "Jakarta", "latitude": -6.21462, "longitude": 106.84513, "elevation": 7.0, "feature_code": "PPLC", "country_code": "ID", "admin1_id": 1642907, "timezone": "Asia/Jakarta", "population": 8540121, "country_id": 1643084, "country": "Indonesia", "admin1": "Jakarta" },
+    { "id": 1642907, "name": "Jakarta", "latitude": -6.2, "longitude": 106.83333, "elevation": 8.0, "feature_code": "ADM1", "country_code": "ID", "timezone": "Asia/Jakarta", "country_id": 1643084, "country": "Indonesia" },
+    { "id": 8581443, "name": "Jakarta Selatan", "latitude": -6.26, "longitude": 106.81, "feature_code": "PPLA2", "country_code": "ID", "timezone": "Asia/Jakarta", "country": "Indonesia", "admin1": "Jakarta" }
+  ],
+  "generationtime_ms": 0.62
+}

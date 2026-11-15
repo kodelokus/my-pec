@@ -1,0 +1,162 @@
+/* The weather above and around the character (weather R6): only transform and opacity move, so an
+   idle window stays cheap; nothing moves while reduced motion is on. */
+.weather-layer {
+  position: absolute;
+  inset: -12% -12% 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.weather-layer svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.weather-sun circle {
+  fill: #ffcf4a;
+}
+
+.weather-rays line {
+  stroke: #ffcf4a;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.weather-rays {
+  transform-origin: 84px 14px;
+  animation: weather-spin 24s linear infinite;
+}
+
+.weather-moon {
+  fill: #f3e7b3;
+}
+
+.weather-stars circle {
+  fill: #fff6cc;
+  animation: weather-twinkle 3s ease-in-out infinite;
+}
+
+.weather-stars circle:nth-child(2n) {
+  animation-delay: 1.4s;
+}
+
+.weather-cloud {
+  fill: #f5f7fa;
+  opacity: 0.95;
+  animation: weather-drift 9s ease-in-out infinite alternate;
+}
+
+.weather-cloud.dark {
+  fill: #8d97a5;
+}
+
+.weather-drops line {
+  stroke: #6ea8dc;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  animation: weather-fall 0.9s linear infinite;
+}
+
+.weather-layer[data-condition="drizzle"] .weather-drops line {
+  animation-duration: 1.4s;
+}
+
+.weather-flakes circle {
+  fill: #ffffff;
+  stroke: #c6d3e0;
+  stroke-width: 0.3;
+  animation: weather-snow 3.2s linear infinite;
+}
+
+.weather-flash {
+  fill: #ffe066;
+  opacity: 0;
+  animation: weather-flash 6s ease-out infinite;
+}
+
+.weather-haze rect {
+  fill: #e6eaee;
+  opacity: 0.55;
+  animation: weather-drift 12s ease-in-out infinite alternate;
+}
+
+/* Reduced motion: a still picture, with the drops, flakes and flash where they would be mid-fall. */
+.weather-layer[data-still="true"] * {
+  animation: none;
+}
+
+.weather-layer[data-still="true"] .weather-drops line,
+.weather-layer[data-still="true"] .weather-flakes circle {
+  transform: translateY(30px);
+}
+
+.weather-layer[data-still="true"] .weather-flash {
+  opacity: 0.8;
+}
+
+@keyframes weather-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes weather-twinkle {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes weather-drift {
+  to {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes weather-fall {
+  from {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  to {
+    transform: translateY(78px);
+    opacity: 0;
+  }
+}
+
+@keyframes weather-snow {
+  from {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate(3px, 38px);
+  }
+  to {
+    transform: translate(-2px, 78px);
+    opacity: 0;
+  }
+}
+
+/* Two quick flashes every six seconds; Pip's flinch uses the same beat (pip.css). */
+@keyframes weather-flash {
+  0%,
+  6%,
+  100% {
+    opacity: 0;
+  }
+  2%,
+  8% {
+    opacity: 1;
+  }
+  4% {
+    opacity: 0.2;
+  }
+}

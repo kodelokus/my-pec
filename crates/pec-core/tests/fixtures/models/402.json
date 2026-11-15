@@ -1,0 +1,5 @@
+{
+  "type": "error",
+  "error": { "type": "billing_error", "message": "Your credit balance is too low to access the Claude API." },
+  "request_id": "req_fixture_402"
+}

@@ -1,0 +1,2 @@
+# LF everywhere, so generated types and formatter output compare equal on every machine.
+* text=auto eol=lf

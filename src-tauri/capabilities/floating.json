@@ -1,0 +1,16 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "floating",
+  "description": "The floating character may only show the avatar, open the chat, read the interface language and the weather (avatar FR-027).",
+  "windows": ["floating"],
+  "permissions": [
+    "core:event:default",
+    "core:window:allow-start-dragging",
+    "allow-avatar-state",
+    "allow-avatar-manifest",
+    "allow-avatar-file",
+    "allow-open-chat",
+    "allow-language",
+    "allow-weather-now"
+  ]
+}

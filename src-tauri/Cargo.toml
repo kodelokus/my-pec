@@ -1,0 +1,39 @@
+[package]
+name = "my-pec"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+
+[lib]
+name = "my_pec_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[features]
+# Lets end-to-end runs point the app at a local replay server and a scratch data root.
+e2e = []
+
+[lints]
+workspace = true
+
+[dependencies]
+keyring-core = "1"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+pec-core = { version = "0.1.0", path = "../crates/pec-core" }
+pec-ext = { version = "0.1.0", path = "../crates/pec-ext" }
+tauri = { version = "2", features = ["tray-icon"] }
+tauri-plugin-single-instance = "2"
+tauri-plugin-opener = "2"
+# Launch at login (extensions R6) and the local clock for the extension tick (extensions R4).
+tauri-plugin-autostart = "2"
+time = { version = "0.3", features = ["local-offset"] }
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[target."cfg(windows)".dependencies]
+windows-native-keyring-store = "1"
+# Alarm toasts with Snooze and Done (extensions R5).
+tauri-winrt-notification = "0.7"
+# Whether Windows lets My Pec's notifications through; the same version tauri-winrt-notification uses.
+windows = { version = "0.61", features = ["UI_Notifications"] }

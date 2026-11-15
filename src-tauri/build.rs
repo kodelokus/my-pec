@@ -1,0 +1,98 @@
+// Declaring the commands turns off Tauri's default of exposing every command to every window
+// (Principle II). capabilities/main.json then allows them for the main window only.
+const COMMANDS: &[&str] = &[
+    "app_status",
+    "setup_options",
+    "submit_key",
+    "save_setup_draft",
+    "complete_setup",
+    "remove_key",
+    "model_list",
+    "select_model",
+    "hide_to_tray",
+    "chat_state",
+    "chat_history",
+    "send_message",
+    "retry_reply",
+    "regenerate_reply",
+    "start_first_hello",
+    "stop_reply",
+    "start_fresh_context",
+    "start_context_carrying",
+    "language",
+    "set_language",
+    "weather_now",
+    "weather_settings",
+    "weather_search",
+    "weather_choose",
+    "weather_units",
+    "open_link",
+    "set_auto_recall",
+    "set_sound",
+    "memory_files",
+    "memory_read",
+    "memory_save",
+    "memory_search",
+    "memory_undo",
+    "memory_forget",
+    "open_workspace_folder",
+    "prepare_world",
+    "world_view",
+    "forget_topic",
+    "compact_conversation",
+    "compaction_settings",
+    "set_compaction_settings",
+    "semantic_status",
+    "start_semantic_download",
+    "cancel_semantic_download",
+    "set_semantic_search",
+    "remove_semantic_model",
+    "dismiss_semantic_offer",
+    "semantic_tick",
+    "dream_tick",
+    "dream_now",
+    "undo_last_dream",
+    "dream_journal",
+    "dreaming_settings",
+    "set_dreaming_settings",
+    "avatar_state",
+    "set_listening",
+    "avatar_manifest",
+    "avatar_file",
+    "choose_avatar",
+    "set_avatar_picture",
+    "floating_settings",
+    "set_floating",
+    "open_chat",
+    "extensions",
+    "set_extension",
+    "autostart",
+    "set_autostart",
+    "notes",
+    "new_note",
+    "note_read",
+    "note_save",
+    "note_style",
+    "show_note",
+    "hide_note",
+    "delete_note",
+    "alarms",
+    "save_alarm",
+    "delete_alarm",
+    "alarm_action",
+];
+
+fn main() {
+    // avatar R3: with Live2D's SDK in vendor/cubism/, the page may compile its WebAssembly. Touch
+    // tauri.live2d.conf.json after adding or removing the folder so this runs again.
+    println!("cargo:rerun-if-changed=tauri.live2d.conf.json");
+    if std::path::Path::new("../vendor/cubism").is_dir() {
+        let live2d = std::fs::read_to_string("tauri.live2d.conf.json").expect("live2d config");
+        println!("cargo:rustc-env=TAURI_CONFIG={}", live2d.replace('\n', ""));
+    }
+    tauri_build::try_build(
+        tauri_build::Attributes::new()
+            .app_manifest(tauri_build::AppManifest::new().commands(COMMANDS)),
+    )
+    .expect("failed to run tauri-build");
+}

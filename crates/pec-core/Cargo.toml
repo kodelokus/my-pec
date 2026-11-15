@@ -1,0 +1,30 @@
+[package]
+name = "pec-core"
+edition.workspace = true
+version.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+reqwest = { version = "0.13", default-features = false, features = ["rustls", "json", "query", "blocking"] }
+# Search: the local embedding model (ONNX Runtime, prebuilt), its tokenizer, the download's checksum and
+# free-space check (search R2, R7).
+ort = { version = "=2.0.0-rc.15", default-features = false, features = ["std", "ndarray", "download-binaries", "tls-native", "copy-dylibs", "api-24"] }
+tokenizers = { version = "0.22", default-features = false, features = ["fancy-regex"] }
+sha2 = "0.11"
+fs4 = "1.1"
+rusqlite = { version = "0.42.0", features = ["bundled"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+thiserror = "2.0.21"
+tokio = { version = "1.54.1", features = ["sync", "time", "macros", "rt"] }
+ts-rs = "12"
+# Extensions: local dates and times (already in the tree through Tauri; extensions R4).
+time = "0.3"
+
+[dev-dependencies]
+tempfile = "3.27.0"
+tokio = { version = "1.54.1", features = ["macros", "rt-multi-thread", "net", "time", "test-util"] }
+wiremock = "0.6.5"

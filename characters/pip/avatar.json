@@ -1,0 +1,18 @@
+{
+  "type": "live2d",
+  "model": "pip/pip.model3.json",
+  "moods": {
+    "happy": { "expression": "happy" },
+    "playful": { "expression": "playful" },
+    "concerned": { "expression": "concerned" },
+    "sad": { "expression": "sad" },
+    "surprised": { "expression": "surprised" }
+  },
+  "activities": {
+    "idle": { "motionGroup": "Idle" },
+    "listening": { "motionGroup": "Listen" },
+    "thinking": { "motionGroup": "Think" },
+    "speaking": { "motionGroup": "Speak" },
+    "sleeping": { "motionGroup": "Sleep" }
+  }
+}
