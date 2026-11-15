@@ -6,18 +6,20 @@ My Pec has no account, no server and no telemetry. Your conversation goes only t
 
 ## Status
 
-In testing, not released yet. Setup, chat with streaming replies, memory with daily notes and recall, compaction of long conversations, nightly dreaming with a dream diary, search by meaning, the companion's world, an animated character (Pip, or a Live2D model), sticky notes, alarms and weather all work today, with the interface in English or Bahasa Indonesia. Release readiness (the Microsoft Store package, the usage meter, export and erase) comes next.
+In testing; 0.1.0 is the first release. Setup, chat with streaming replies, memory with daily notes and recall, compaction of long conversations, nightly dreaming with a dream diary, search by meaning, the companion's world, an animated character (Pip, or a Live2D model), sticky notes, alarms and weather all work today, with the interface in English or Bahasa Indonesia. Release readiness (the Microsoft Store package, the usage meter, export and erase) comes next.
 
 ## What you need
 
-- Windows 11.
+- Windows 11, or a Mac with Apple silicon.
 - A Claude API key from <https://platform.claude.com/settings/keys>, with credit on the account. You pay Anthropic directly for what you use. My Pec takes no cut.
 
 ## Install
 
-Download the latest `My Pec_x.y.z_x64-setup.exe` from the Releases page and run it. It installs for your user only and needs no administrator rights.
+On Windows, download the latest `My.Pec_x.y.z_x64-setup.exe` from the [Releases page](https://github.com/kodelokus/my-pec/releases) and run it. It installs for your user only and needs no administrator rights.
 
 The installer is not code-signed yet, so Windows SmartScreen shows "Windows protected your PC". Choose **More info**, then **Run anyway**. If Smart App Control is on, Windows may block the installer entirely; building from source avoids that.
+
+On a Mac with Apple silicon, download `My.Pec_x.y.z_aarch64.dmg` from the same page, open it and drag My Pec to Applications. Alarm notifications are not available on macOS yet.
 
 ## Build from source
 
