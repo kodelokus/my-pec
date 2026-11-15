@@ -45,6 +45,8 @@ export default defineConfig({
   plugins: [react(), live2dSwitch()],
   define: { __APP_VERSION__: JSON.stringify(version) },
   resolve: { alias: withLive2d ? { "@cubism/framework": here("vendor/cubism/Framework/src") } : {} },
+  // The CSP has no `data:` for fonts, so the icon font stays a file however small it is.
+  build: { assetsInlineLimit: (file) => (file.endsWith(".woff2") ? false : undefined) },
   clearScreen: false,
   server: { port: 1420, strictPort: true, watch: { ignored: ["**/src-tauri/**", "**/target/**"] } },
   test: {

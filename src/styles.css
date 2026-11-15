@@ -1,3 +1,11 @@
+/* Where Segoe Fluent Icons is missing (not Windows), look-alikes at the same code points.
+   Built by scripts/make-icon-font.py from Fluent UI System Icons, copyright Microsoft Corporation, MIT License. */
+@font-face {
+  font-family: "Pec Icons";
+  src: url("./assets/fonts/pec-icons.woff2") format("woff2");
+  font-display: block;
+}
+
 /* Tokens from design/001-app-shell-onboarding.figcraft (Theme, and the Soft mode of Dimensions). */
 :root {
   color-scheme: light dark;
@@ -31,7 +39,7 @@
   --radius-lg: 20px;
   --shadow-card: 0 1px 3px rgba(22, 32, 27, 0.08);
   --radius-full: 999px;
-  --icons: "Segoe Fluent Icons", "Segoe MDL2 Assets";
+  --icons: "Segoe Fluent Icons", "Segoe MDL2 Assets", "Pec Icons";
   font:
     14px / 1.5 "Segoe UI",
     system-ui,
