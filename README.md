@@ -38,6 +38,12 @@ To build an installer:
 pnpm tauri build
 ```
 
+The app also runs on macOS for development, without alarm notifications. To build a signed and notarized `.dmg` there, put your Developer ID signing identity and notarization credentials in a file outside the repository (the script's header lists the variables) and run:
+
+```bash
+scripts/build-macos.sh <signing env file> [--universal]
+```
+
 Before you open a pull request, run every check ([docs/development.md](docs/development.md) explains how we work):
 
 ```bash
