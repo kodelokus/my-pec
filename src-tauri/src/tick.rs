@@ -1,18 +1,24 @@
 //! The extension tick: every 15 seconds from startup to quit, whatever the windows do, the core says what is due
 //! and the shell rings it as a Windows notification (extensions R4, R5; extensions interfaces).
 
+#[cfg(windows)]
 use crate::words::words;
-use crate::{AppCtx, notes, show_main};
+use crate::{AppCtx, notes};
+#[cfg(windows)]
+use crate::show_main;
 use pec_core::ext::Due;
+#[cfg(windows)]
 use pec_ext::alarms::{self, Action};
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::Duration;
 use tauri::{AppHandle, Emitter, Manager};
+#[cfg(windows)]
 use tauri_winrt_notification::{Scenario, Toast, ToastDismissalReason};
 use time::{OffsetDateTime, PrimitiveDateTime};
 
 const EVERY: Duration = Duration::from_secs(15);
 /// The most labels a notification lists.
+#[cfg(windows)]
 const LISTED: usize = 5;
 
 /// Windows didn't show the last notification, or has My Pec's notifications turned off (extensions edge cases).
@@ -60,6 +66,7 @@ pub fn start(app: &AppHandle) {
     });
 }
 
+#[cfg(windows)]
 /// Installed builds have the bundle's AppUserModelID; a build run from `target/` borrows PowerShell's (extensions R5).
 fn app_id() -> &'static str {
     let from_target = std::env::current_exe()
@@ -71,6 +78,7 @@ fn app_id() -> &'static str {
     }
 }
 
+#[cfg(windows)]
 /// `Call Mum at 19:00`, up to five, then `and N more`.
 fn listed(app: &AppHandle, due: &[Due], with_date: bool) -> String {
     let w = words(app);
@@ -88,6 +96,7 @@ fn listed(app: &AppHandle, due: &[Due], with_date: bool) -> String {
     lines.join("\n")
 }
 
+#[cfg(windows)]
 fn companion(app: &AppHandle) -> String {
     let core = &app.state::<AppCtx>().core;
     core.app_status()
@@ -96,6 +105,7 @@ fn companion(app: &AppHandle) -> String {
         .map_or_else(|| pec_core::onboarding::DEFAULT_NAME.into(), |c| c.name)
 }
 
+#[cfg(windows)]
 /// Snooze or Done on every alarm of a notification, as the list's buttons do (extensions FR-021).
 pub fn act(app: &AppHandle, keys: &[String], action: Action) {
     let core = &app.state::<AppCtx>().core;
@@ -107,12 +117,14 @@ pub fn act(app: &AppHandle, keys: &[String], action: Action) {
     let _ = app.emit("ext_changed", ["alarms"]);
 }
 
+#[cfg(windows)]
 /// extensions FR-022: a click on a notification opens the alarm list.
 fn open_alarms(app: &AppHandle) {
     show_main(app);
     let _ = app.emit("open_alarms", ());
 }
 
+#[cfg(windows)]
 /// One notification for everything due in this tick, with Snooze and Done (extensions FR-020, FR-021).
 fn ring(app: &AppHandle, due: Vec<Due>) {
     let (title, text) = match due.as_slice() {
@@ -152,6 +164,7 @@ fn ring(app: &AppHandle, due: Vec<Due>) {
     HELD.store(shown.is_err() || turned_off(), Ordering::SeqCst);
 }
 
+#[cfg(windows)]
 /// Whether Windows says My Pec's notifications are turned off: by the person, for every app, or by a policy.
 /// Focus (do not disturb) can't be read, so it isn't counted.
 fn turned_off() -> bool {
@@ -161,6 +174,7 @@ fn turned_off() -> bool {
         .is_ok_and(|s| s != NotificationSetting::Enabled)
 }
 
+#[cfg(windows)]
 /// extensions FR-023: one notification listing what was missed; never rung late.
 fn missed(app: &AppHandle, due: &[Due]) {
     let handle = app.clone();
@@ -173,4 +187,20 @@ fn missed(app: &AppHandle, due: &[Due]) {
         })
         .show();
     HELD.store(shown.is_err() || turned_off(), Ordering::SeqCst);
+}
+
+/// Development off Windows: no system notification, so every ring is held and the alarm list says so.
+#[cfg(not(windows))]
+fn ring(_app: &AppHandle, _due: Vec<Due>) {
+    HELD.store(true, Ordering::SeqCst);
+}
+
+#[cfg(not(windows))]
+fn turned_off() -> bool {
+    false
+}
+
+#[cfg(not(windows))]
+fn missed(_app: &AppHandle, _due: &[Due]) {
+    HELD.store(true, Ordering::SeqCst);
 }

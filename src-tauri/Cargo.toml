@@ -37,3 +37,7 @@ windows-native-keyring-store = "1"
 tauri-winrt-notification = "0.7"
 # Whether Windows lets My Pec's notifications through; the same version tauri-winrt-notification uses.
 windows = { version = "0.61", features = ["UI_Notifications"] }
+
+# Development on macOS: the key goes in the login keychain. Alarm notifications are Windows-only.
+[target."cfg(target_os = \"macos\")".dependencies]
+apple-native-keyring-store = { version = "1", features = ["keychain"] }

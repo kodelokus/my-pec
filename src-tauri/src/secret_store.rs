@@ -3,6 +3,7 @@
 use keyring_core::api::CredentialStoreApi;
 use keyring_core::{Entry, Error};
 use pec_core::credentials::{ApiKey, SecretStore, StoreUnavailable};
+#[cfg(windows)]
 use std::collections::HashMap;
 use std::sync::{Mutex, MutexGuard};
 
@@ -15,15 +16,7 @@ pub struct CredentialManager(Option<Mutex<Entry>>);
 
 impl CredentialManager {
     pub fn new(service: &str) -> Self {
-        let entry = windows_native_keyring_store::Store::new().and_then(|store| {
-            // `Local` keeps the key on this machine; the store's default would roam with a domain profile.
-            store.build(
-                service,
-                ACCOUNT,
-                Some(&HashMap::from([("persistence", "local")])),
-            )
-        });
-        Self(entry.ok().map(Mutex::new))
+        Self(open(service).ok().map(Mutex::new))
     }
 
     fn entry(&self) -> Option<MutexGuard<'_, Entry>> {
@@ -31,6 +24,31 @@ impl CredentialManager {
             .as_ref()
             .map(|e| e.lock().unwrap_or_else(|poisoned| poisoned.into_inner()))
     }
+}
+
+#[cfg(windows)]
+fn open(service: &str) -> Result<Entry, Error> {
+    windows_native_keyring_store::Store::new().and_then(|store| {
+        // `Local` keeps the key on this machine; the store's default would roam with a domain profile.
+        store.build(
+            service,
+            ACCOUNT,
+            Some(&HashMap::from([("persistence", "local")])),
+        )
+    })
+}
+
+/// Development on macOS: the login keychain.
+#[cfg(target_os = "macos")]
+fn open(service: &str) -> Result<Entry, Error> {
+    apple_native_keyring_store::keychain::Store::new()
+        .and_then(|store| store.build(service, ACCOUNT, None))
+}
+
+/// No credential store elsewhere: every write fails and nothing falls back.
+#[cfg(not(any(windows, target_os = "macos")))]
+fn open(_service: &str) -> Result<Entry, Error> {
+    Err(Error::NoStorageAccess("no credential store on this platform".into()))
 }
 
 impl SecretStore for CredentialManager {

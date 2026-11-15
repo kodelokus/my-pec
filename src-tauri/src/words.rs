@@ -4,6 +4,8 @@
 use crate::AppCtx;
 use tauri::{AppHandle, Manager};
 
+// The alarm notification words are used only on Windows.
+#[cfg_attr(not(windows), allow(dead_code))]
 pub struct Words {
     pub open: &'static str,
     pub settings: &'static str,
