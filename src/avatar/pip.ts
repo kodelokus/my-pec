@@ -2,6 +2,7 @@
 // The parts are in pip.svg and the look of each state in pip.css; this renderer only sets which state is shown.
 
 import type { AvatarLook } from "../bindings/AvatarLook";
+import type { Mood } from "../bindings/Mood";
 import "./pip.css";
 import pip from "./pip.svg?raw";
 import type { AvatarRenderer, Shown } from "./renderer";
@@ -17,6 +18,19 @@ export const isAnimated = (look: AvatarLook) => look.type !== "picture" && look.
 const MOUTH_MS = 110;
 const QUIET_MS = 300;
 
+/** The whole-body moves and how long each plays (pip.css). */
+const MOVES = { dance: 2400, roll: 2000, twirl: 1400, bounce: 1500 } as const;
+export type Move = keyof typeof MOVES;
+/** A reply bringing one of these moods sets Pip moving. */
+const MOOD_MOVES: Partial<Record<Mood, Move>> = {
+  happy: "bounce",
+  playful: "roll",
+  excited: "dance",
+  proud: "twirl",
+};
+/** Idle and awake, Pip moves on its own once in a while, somewhere in this range. */
+const FIDGET_MS = [45_000, 120_000] as const;
+
 /** The animated drawing: the state goes to data attributes the styles act on; the pointer turns the face. */
 export class PipRenderer implements AvatarRenderer {
   private svg: SVGSVGElement | null = null;
@@ -24,6 +38,8 @@ export class PipRenderer implements AvatarRenderer {
   private open = false;
   private flipped = 0;
   private quiet = 0;
+  private moving = 0;
+  private fidget = 0;
   private shown: Shown | null = null;
 
   constructor(private host: HTMLElement) {}
@@ -31,12 +47,17 @@ export class PipRenderer implements AvatarRenderer {
   async load(look: AvatarLook) {
     this.host.innerHTML = (DRAWINGS[look.character] ?? "").replaceAll("pip0-", `pip${++copies}-`);
     this.svg = this.host.querySelector("svg");
+    this.scheduleFidget();
   }
 
   setState(shown: Shown) {
+    const before = this.shown;
     this.shown = shown;
     const svg = this.svg;
     if (!svg) return;
+    const move = MOOD_MOVES[shown.mood];
+    if (move && shown.mood !== before?.mood && shown.activity !== "sleeping") this.play(move);
+    if (shown.still || shown.activity === "sleeping") this.stop();
     const speaking = shown.activity === "speaking";
     if (speaking && shown.voice !== this.voice) {
       const now = performance.now();
@@ -70,8 +91,43 @@ export class PipRenderer implements AvatarRenderer {
     this.svg?.style.setProperty("--look-y", y.toFixed(2));
   }
 
+  /** Plays a move once, from the start even when the same one is playing; never while holding still. */
+  play(move: Move) {
+    const svg = this.svg;
+    if (!svg || this.shown?.still) return;
+    this.stop();
+    // Reading the layout lets the animation start again when the same move follows itself.
+    void svg.getBoundingClientRect();
+    svg.dataset.move = move;
+    this.moving = window.setTimeout(() => this.stop(), MOVES[move]);
+  }
+
+  private stop() {
+    window.clearTimeout(this.moving);
+    if (this.svg) delete this.svg.dataset.move;
+  }
+
+  /** Idle, awake and on screen, a random move now and then; never in a hidden window, so it stays cheap. */
+  private scheduleFidget() {
+    window.clearTimeout(this.fidget);
+    const [least, most] = FIDGET_MS;
+    this.fidget = window.setTimeout(
+      () => {
+        const s = this.shown;
+        if (s && s.activity === "idle" && !s.still && !document.hidden && !this.svg?.dataset.move) {
+          const moves = Object.keys(MOVES) as Move[];
+          this.play(moves[Math.floor(Math.random() * moves.length)]);
+        }
+        this.scheduleFidget();
+      },
+      least + Math.random() * (most - least),
+    );
+  }
+
   dispose() {
     window.clearTimeout(this.quiet);
+    window.clearTimeout(this.fidget);
+    this.stop();
     this.host.innerHTML = "";
   }
 }

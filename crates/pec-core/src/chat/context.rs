@@ -26,7 +26,9 @@ const HARNESS_AVATAR_1: &str = include_str!("harness-avatar-1.md");
 const HARNESS_EXT_1: &str = include_str!("harness-ext-1.md");
 /// The rules of contexts started before "How you talk"; they keep them until they end.
 const HARNESS_EXT_2: &str = include_str!("harness-ext-2.md");
-pub(crate) const HARNESS_VERSION: &str = "talk-1";
+/// The rules of contexts started before the five newer moods; they keep them until they end.
+const HARNESS_TALK_1: &str = include_str!("harness-talk-1.md");
+pub(crate) const HARNESS_VERSION: &str = "mood-2";
 
 /// The harness rules and the tools of a context, by the version its `context` entry recorded, and whether the
 /// SKILL.md of each extension it recorded follows the rules (from `ext-2` on).
@@ -38,6 +40,7 @@ pub(crate) fn harness(version: &str) -> (&'static str, Vec<ToolSpec>, bool) {
         "avatar-1" => (HARNESS_AVATAR_1, tools::specs(), false),
         "ext-1" => (HARNESS_EXT_1, tools::specs(), false),
         "ext-2" => (HARNESS_EXT_2, tools::specs(), true),
+        "talk-1" => (HARNESS_TALK_1, tools::specs(), true),
         _ => (HARNESS, tools::specs(), true),
     }
 }

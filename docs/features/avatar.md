@@ -2,7 +2,7 @@
 
 Built.
 
-Today the companion is a still portrait beside the chat. This feature brings it to life: a drawn character that breathes and blinks, turns toward the user while they type, looks away to think while a reply is being prepared, moves its mouth while the reply streams in, and sleeps while it dreams. Each reply also carries the companion's mood (happy, playful, concerned, sad, surprised or neutral), and the character's face shows it. The user can keep the character in the chat window or let it float on the desktop. Whatever goes wrong with the character, the conversation never notices.
+Today the companion is a still portrait beside the chat. This feature brings it to life: a drawn character that breathes and blinks, turns toward the user while they type, looks away to think while a reply is being prepared, moves its mouth while the reply streams in, and sleeps while it dreams. Each reply also carries the companion's mood (happy, playful, concerned, sad, surprised, excited, loving, shy, confused, proud or neutral), and the character's face shows it; some moods set the whole body moving, and now and then it moves on its own. The user can keep the character in the chat window or let it float on the desktop. Whatever goes wrong with the character, the conversation never notices.
 
 ## User stories
 
@@ -12,7 +12,7 @@ The user opens the chat window and Steve is there, breathing and blinking. When 
 
 **Why this priority**: This is the feature. A companion that reacts while it listens, thinks and answers feels present in a way a still picture never does (A5, AVA-1, AVA-2).
 
-**How to check**: With the bundled character, type, send and receive replies with each of the six moods from recorded responses, and confirm the character's activity follows each step and its expression follows each reply's mood, while the reply text never shows the mood marker.
+**How to check**: With the bundled character, type, send and receive replies with each of the eleven moods from recorded responses, and confirm the character's activity follows each step and its expression follows each reply's mood, while the reply text never shows the mood marker.
 
 **Acceptance Scenarios**:
 
@@ -121,7 +121,7 @@ In the wizard the user sees each bundled character moving and picks one; later t
 
 **Mood**
 
-- **FR-008**: Each reply MUST be able to state one mood from the fixed set neutral, happy, playful, concerned, sad, surprised, as a marker at the very start of the reply. The companion's standing instructions MUST tell it how (AVA-2).
+- **FR-008**: Each reply MUST be able to state one mood from the fixed set neutral, happy, playful, concerned, sad, surprised, excited, loving, shy, confused, proud, as a marker at the very start of the reply. The companion's standing instructions MUST tell it how (AVA-2).
 - **FR-009**: The marker MUST be removed before the reply is displayed and MUST never appear in any visible text, while the stored conversation keeps the reply exactly as the model wrote it (Principle III).
 - **FR-010**: A missing, unknown or malformed marker MUST mean neutral. A marker counts only at the very start of the reply's text or of the text after a tool call, the last one winning; anywhere else it MUST be left as ordinary text.
 - **FR-011**: Each reply MUST set the mood, and it MUST hold until the next reply arrives. The mood MUST be neutral when the app starts.
@@ -164,6 +164,7 @@ In the wizard the user sees each bundled character moving and picks one; later t
 - **FR-033**: The character MUST add no network destination: every character file ships with the app or is copied into the workspace (Principle II, NFR-SEC-1).
 - **FR-034**: Importing the user's own animated character (AVA-6) MUST NOT be available in this feature.
 - **FR-035**: Activity, mood, fallback and choice decisions MUST be made in the core or in the webview's own rules and be testable without the animation components (Principle VI).
+- **FR-036**: The bundled character MUST move its whole body at times, playing each move once: a bounce, a roll, a dance or a twirl when a reply brings happy, playful, excited or proud, and a random one on its own every 45 seconds to 2 minutes while it is idle, awake and in a visible window. It MUST NOT move while asleep or while reduced motion is on (FR-021).
 
 ### Key entities
 

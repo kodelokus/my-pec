@@ -406,7 +406,7 @@ async fn a_new_context_asks_for_the_marker_and_an_older_one_keeps_its_rules() {
         .into_iter()
         .find(|l| l["type"] == "context")
         .unwrap();
-    assert_eq!(context["harness"], "talk-1");
+    assert_eq!(context["harness"], "mood-2");
 
     // A context from before keeps the rules it started with, byte for byte (Principle III).
     let mut old = context.clone();

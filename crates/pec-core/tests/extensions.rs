@@ -117,7 +117,7 @@ async fn a_context_records_its_extensions_and_keeps_its_tools_when_they_are_togg
         .into_iter()
         .find(|l| l["type"] == "context")
         .unwrap();
-    assert_eq!(context["harness"], "talk-1");
+    assert_eq!(context["harness"], "mood-2");
     assert_eq!(context["extensions"], json!(["stub"]));
     // The recorded extension's SKILL.md follows the harness.
     let system = &provider.requests()[0].system[0];
@@ -203,10 +203,15 @@ async fn an_older_context_keeps_its_request_and_offers_to_catch_up() {
         .find(|l| l["type"] == "context")
         .unwrap();
 
-    // Principle III: each older context has its old rules byte for byte; only `ext-2` is followed by SKILL.md.
+    // Principle III: each older context has its old rules byte for byte; from `ext-2` on, SKILL.md follows them.
     let ext_2 = format!(
         "{}\n{}",
         include_str!("../src/chat/harness-ext-2.md"),
+        Stub.skill()
+    );
+    let talk_1 = format!(
+        "{}\n{}",
+        include_str!("../src/chat/harness-talk-1.md"),
         Stub.skill()
     );
     for (version, system, recorded, tools) in [
@@ -223,6 +228,7 @@ async fn an_older_context_keeps_its_request_and_offers_to_catch_up() {
             6,
         ),
         ("ext-2", ext_2.as_str(), true, 6),
+        ("talk-1", talk_1.as_str(), true, 6),
     ] {
         let mut old = context.clone();
         old["harness"] = version.into();

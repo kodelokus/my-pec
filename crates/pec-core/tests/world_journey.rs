@@ -567,7 +567,7 @@ async fn a_new_context_knows_the_world_and_a_running_one_is_told_once() {
         .rev()
         .find(|l| l["type"] == "context")
         .unwrap();
-    assert_eq!(context["harness"], "talk-1");
+    assert_eq!(context["harness"], "mood-2");
     assert_eq!(context["world"]["through"], "2026-11-10");
     say(&core, &provider, "What did you draw?", "2026-11-11").await;
     let fresh = provider.requests().last().unwrap().clone();

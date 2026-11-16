@@ -41,6 +41,11 @@ pub enum Mood {
     Concerned,
     Sad,
     Surprised,
+    Excited,
+    Loving,
+    Shy,
+    Confused,
+    Proud,
 }
 
 impl Mood {
@@ -229,6 +234,7 @@ mod tests {
     fn mood_words_ignore_case_and_unknown_ones_are_neutral() {
         assert_eq!(Mood::named("Happy"), Mood::Happy);
         assert_eq!(Mood::named("SURPRISED"), Mood::Surprised);
+        assert_eq!(Mood::named("Proud"), Mood::Proud);
         assert_eq!(Mood::named("ecstatic"), Mood::Neutral);
     }
 }

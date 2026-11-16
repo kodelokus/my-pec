@@ -172,6 +172,11 @@
 .pip[data-face="concerned"] [data-face="concerned"],
 .pip[data-face="sad"] [data-face="sad"],
 .pip[data-face="surprised"] [data-face="surprised"],
+.pip[data-face="excited"] [data-face="excited"],
+.pip[data-face="loving"] [data-face="loving"],
+.pip[data-face="shy"] [data-face="shy"],
+.pip[data-face="confused"] [data-face="confused"],
+.pip[data-face="proud"] [data-face="proud"],
 .pip[data-face="open"] [data-face="open"],
 .pip[data-face="asleep"] [data-face="asleep"],
 .pip[data-face="thinking"] [data-face="thinking"] {
@@ -184,9 +189,15 @@
 .pip[data-expr="concerned"] [data-fx="sweat"],
 .pip[data-expr="sad"] [data-fx="tear"],
 .pip[data-expr="surprised"] [data-fx="sparks"],
+.pip[data-expr="excited"] [data-fx="sparkles"],
+.pip[data-expr="loving"] [data-fx="hearts"],
+.pip[data-expr="shy"] [data-fx="blush"],
+.pip[data-expr="confused"] [data-fx="question"],
+.pip[data-expr="proud"] [data-fx="wink"],
 .pip[data-expr="asleep"] [data-fx="zzz"],
 .pip[data-expr="thinking"] [data-fx="dots"],
 .pip[data-expr="playful"] [data-shut="wink"],
+.pip[data-expr="loving"] [data-shut="smile"],
 .pip[data-expr="asleep"] [data-shut="sleep"] {
   opacity: 1;
 }
@@ -393,6 +404,192 @@
   animation: pip-spark 1.2s ease-out infinite;
 }
 
+/* Excited: shining wide eyes, a big open grin, both arms waving, quick sparkles; it dances (pip.ts). */
+.pip[data-expr="excited"] .pip-eye {
+  transform: scale(1.12);
+}
+
+.pip[data-expr="excited"] .pip-shine {
+  transform: scale(1.3);
+}
+
+.pip[data-expr="excited"] .pip-brows > path {
+  transform: translateY(-7px);
+}
+
+.pip[data-expr="excited"] .pip-cheek {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.pip[data-expr="excited"] .pip-arm-l {
+  animation: pip-wave-l 0.5s ease-in-out infinite alternate;
+}
+
+.pip[data-expr="excited"] .pip-arm-r {
+  animation: pip-wave-r 0.5s ease-in-out infinite alternate;
+}
+
+.pip[data-expr="excited"] .pip-leaf-l {
+  transform: rotate(16deg);
+}
+
+.pip[data-expr="excited"] .pip-leaf-r {
+  transform: rotate(-16deg);
+}
+
+.pip[data-expr="excited"] .pip-sprout {
+  animation-duration: 1s;
+}
+
+.pip[data-expr="excited"] [data-fx="sparkles"] > * {
+  animation: pip-twinkle 0.9s ease-in-out infinite;
+}
+
+/* Loving: eyes closed in a smile, rosy cheeks, the arms drawn in, hearts floating up, a slow sway. */
+.pip[data-expr="loving"] .pip-pose {
+  animation: pip-rock 3s ease-in-out infinite;
+}
+
+.pip[data-expr="loving"] .pip-eye {
+  opacity: 0;
+}
+
+.pip[data-expr="loving"] .pip-brows > path {
+  transform: translateY(-2px);
+}
+
+.pip[data-expr="loving"] .pip-cheek {
+  opacity: 1;
+  transform: scale(1.25);
+}
+
+.pip[data-expr="loving"] .pip-arm-l {
+  transform: rotate(-35deg);
+}
+
+.pip[data-expr="loving"] .pip-arm-r {
+  transform: rotate(35deg);
+}
+
+.pip[data-expr="loving"] [data-fx="hearts"] > * {
+  animation: pip-float 2.4s ease-in-out infinite;
+}
+
+/* Shy: eyes down and aside under lowered lids, a blush, a small wobbly smile, the arms in, smaller and turned. */
+.pip[data-expr="shy"] .pip-pose {
+  transform: translateY(3px) scale(0.97) rotate(-4deg);
+}
+
+.pip[data-expr="shy"] .pip-pupils {
+  transform: translate(-4px, 5px);
+}
+
+.pip[data-expr="shy"] .pip-lid-tl,
+.pip[data-expr="shy"] .pip-lid-tr {
+  transform: translateY(5px);
+}
+
+.pip[data-expr="shy"] .pip-brow-l {
+  transform: translateY(2px) rotate(-8deg);
+}
+
+.pip[data-expr="shy"] .pip-brow-r {
+  transform: translateY(2px) rotate(8deg);
+}
+
+.pip[data-expr="shy"] .pip-cheek {
+  opacity: 1;
+  transform: scale(1.35);
+}
+
+.pip[data-expr="shy"] .pip-arm-l {
+  transform: rotate(-55deg);
+}
+
+.pip[data-expr="shy"] .pip-arm-r {
+  transform: rotate(55deg);
+}
+
+.pip[data-expr="shy"] .pip-leaf-l {
+  transform: rotate(-20deg);
+}
+
+.pip[data-expr="shy"] .pip-leaf-r {
+  transform: rotate(20deg);
+}
+
+/* Confused: one brow up and one down, eyes of two sizes, a squiggle, a hand to the head, a question mark. */
+.pip[data-expr="confused"] .pip-pose {
+  transform: rotate(-6deg);
+}
+
+.pip[data-expr="confused"] .pip-brow-l {
+  transform: translateY(-7px) rotate(-6deg);
+}
+
+.pip[data-expr="confused"] .pip-brow-r {
+  transform: translateY(3px) rotate(-10deg);
+}
+
+.pip[data-expr="confused"] .pip-eye-l {
+  transform: scale(1.1);
+}
+
+.pip[data-expr="confused"] .pip-eye-r {
+  transform: scale(0.88);
+}
+
+.pip[data-expr="confused"] .pip-arm-r {
+  transform: rotate(-110deg);
+}
+
+.pip[data-expr="confused"] .pip-sprout {
+  animation-name: pip-ponder;
+}
+
+.pip[data-expr="confused"] [data-fx="question"] > * {
+  animation: pip-dot 1.6s ease-in-out infinite;
+}
+
+/* Proud: chin up, eyes half shut, a smirk, the arms down at its sides, a glint; it twirls (pip.ts). */
+.pip[data-expr="proud"] .pip-pose {
+  transform: translateY(-4px) rotate(-3deg);
+}
+
+.pip[data-expr="proud"] .pip-lid-tl,
+.pip[data-expr="proud"] .pip-lid-tr {
+  transform: translateY(12px);
+}
+
+.pip[data-expr="proud"] .pip-pupils {
+  transform: translate(2px, -2px);
+}
+
+.pip[data-expr="proud"] .pip-brows > path {
+  transform: translateY(-3px);
+}
+
+.pip[data-expr="proud"] .pip-arm-l {
+  transform: rotate(-40deg);
+}
+
+.pip[data-expr="proud"] .pip-arm-r {
+  transform: rotate(40deg);
+}
+
+.pip[data-expr="proud"] .pip-leaf-l {
+  transform: rotate(10deg);
+}
+
+.pip[data-expr="proud"] .pip-leaf-r {
+  transform: rotate(-10deg);
+}
+
+.pip[data-expr="proud"] [data-fx="wink"] > * {
+  animation: pip-twinkle 1.4s ease-in-out infinite;
+}
+
 /* Thinking: the eyes up and aside, one brow raised, a tilt, a trail of thought (architecture 9.3). */
 .pip[data-expr="thinking"] .pip-pose {
   transform: rotate(3deg);
@@ -486,6 +683,55 @@
 
 .pip[data-activity="speaking"] .pip-body {
   animation: pip-bob 0.6s ease-in-out infinite;
+}
+
+/* Moves (pip.ts): the character crosses the ground with its shadow (pip-move) while the body spins or tilts
+   (pip-turn). Each plays once; holding still stops them like everything else. */
+.pip-turn {
+  transform-origin: 128px 150px;
+}
+
+.pip-shadow {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.pip[data-move="dance"] .pip-move {
+  animation: pip-dance-step 2.4s ease-in-out;
+}
+
+.pip[data-move="dance"] .pip-turn {
+  transform-origin: 128px 228px;
+  animation: pip-dance-sway 2.4s ease-in-out;
+}
+
+.pip[data-move="dance"] .pip-arm-l {
+  animation: pip-wave-l 0.3s ease-in-out 8 alternate;
+}
+
+.pip[data-move="dance"] .pip-arm-r {
+  animation: pip-wave-r 0.3s ease-in-out 0.3s 7 alternate;
+}
+
+.pip[data-move="roll"] .pip-move {
+  animation: pip-roll-path 2s ease-in-out;
+}
+
+.pip[data-move="roll"] .pip-turn {
+  animation: pip-roll-spin 2s ease-in-out;
+}
+
+.pip[data-move="twirl"] .pip-turn {
+  animation: pip-twirl 1.4s ease-in-out;
+}
+
+.pip[data-move="bounce"] .pip-turn {
+  transform-origin: 128px 228px;
+  animation: pip-bounce 1.5s ease-out;
+}
+
+.pip[data-move="bounce"] .pip-shadow {
+  animation: pip-shadow-bounce 1.5s ease-out;
 }
 
 /* Feeling the weather (weather FR-015), after the moods so it wins where both move the same part. */
@@ -620,6 +866,153 @@
   }
   50% {
     transform: rotate(4deg);
+  }
+}
+
+@keyframes pip-wave-l {
+  from {
+    transform: rotate(70deg);
+  }
+  to {
+    transform: rotate(110deg);
+  }
+}
+
+@keyframes pip-wave-r {
+  from {
+    transform: rotate(-70deg);
+  }
+  to {
+    transform: rotate(-110deg);
+  }
+}
+
+@keyframes pip-float {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.6);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-14px) scale(1);
+  }
+}
+
+/* Side steps, two each way, back to where it started. */
+@keyframes pip-dance-step {
+  0%,
+  100% {
+    transform: none;
+  }
+  12%,
+  25% {
+    transform: translateX(-12px);
+  }
+  37%,
+  50% {
+    transform: translateX(12px);
+  }
+  62%,
+  75% {
+    transform: translateX(-12px);
+  }
+  87% {
+    transform: translateX(12px);
+  }
+}
+
+@keyframes pip-dance-sway {
+  0%,
+  25%,
+  50%,
+  75%,
+  100% {
+    transform: none;
+  }
+  12.5%,
+  62.5% {
+    transform: translateY(-6px) rotate(-8deg);
+  }
+  37.5%,
+  87.5% {
+    transform: translateY(-6px) rotate(8deg);
+  }
+}
+
+/* A roll to the right and back, turning once each way. */
+@keyframes pip-roll-path {
+  0%,
+  100% {
+    transform: none;
+  }
+  45%,
+  55% {
+    transform: translateX(34px);
+  }
+}
+
+@keyframes pip-roll-spin {
+  0%,
+  100% {
+    transform: none;
+  }
+  45%,
+  55% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Two turns in the air: squeezing to an edge and back draws the turn on a flat drawing. */
+@keyframes pip-twirl {
+  0%,
+  100% {
+    transform: none;
+  }
+  25%,
+  75% {
+    transform: translateY(-10px) scaleX(-1);
+  }
+  50% {
+    transform: translateY(-12px) scaleX(1);
+  }
+}
+
+/* Three hops, each lower, with a squash on every landing. */
+@keyframes pip-bounce {
+  0%,
+  100% {
+    transform: none;
+  }
+  10%,
+  42%,
+  70% {
+    transform: scale(1.08, 0.92);
+  }
+  26% {
+    transform: translateY(-24px) scale(0.95, 1.06);
+  }
+  56% {
+    transform: translateY(-15px) scale(0.97, 1.04);
+  }
+  82% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes pip-shadow-bounce {
+  26% {
+    transform: scale(0.7);
+    opacity: 0.08;
+  }
+  56% {
+    transform: scale(0.8);
+  }
+  82% {
+    transform: scale(0.9);
   }
 }
 

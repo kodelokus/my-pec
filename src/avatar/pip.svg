@@ -25,8 +25,12 @@
       </g>
     </g>
   </g>
+
+  <!-- A move (data-move) carries everything below across the ground; the turn spins and tilts the body only. -->
+  <g class="pip-move">
   <ellipse class="pip-shadow" cx="128" cy="232" rx="60" ry="8"/>
 
+  <g class="pip-turn">
   <g class="pip-pose">
     <g class="pip-body">
       <ellipse cx="103" cy="225" rx="17" ry="9" fill="#4a9873"/>
@@ -82,6 +86,10 @@
         </g>
         <ellipse class="pip-cheek" cx="82" cy="169" rx="10" ry="6.5" fill="#f8a9a0"/>
         <ellipse class="pip-cheek" cx="174" cy="169" rx="10" ry="6.5" fill="#f8a9a0"/>
+        <g data-fx="blush" fill="none" stroke="#e8857c" stroke-width="2.5" stroke-linecap="round">
+          <path d="M77 165l-3 7M84 165l-3 7M91 165l-3 7"/>
+          <path d="M169 165l-3 7M176 165l-3 7M183 165l-3 7"/>
+        </g>
         <g data-fx="tear">
           <path d="M90 158c3.5 5 5.5 8 5.5 11a5.5 5.5 0 0 1-11 0c0-3 2-6 5.5-11z" fill="#a6dcf7" stroke="#5aa9d6" stroke-width="2"/>
           <circle cx="88" cy="169" r="1.5" fill="#fff"/>
@@ -89,6 +97,7 @@
         <g class="pip-shut" fill="none" stroke="#22332b" stroke-width="5" stroke-linecap="round">
           <path data-shut="wink" d="M90 149q11-12 22 0"/>
           <path data-shut="sleep" d="M90 145q11 9 22 0M144 145q11 9 22 0"/>
+          <path data-shut="smile" d="M90 149q11-12 22 0M144 149q11-12 22 0"/>
         </g>
         <g class="pip-brows" fill="none" stroke="#22332b" stroke-width="4.5" stroke-linecap="round">
           <path class="pip-brow-l" d="M90 121Q100 114 112 118"/>
@@ -109,6 +118,15 @@
           <path data-face="concerned" d="M115 178q6.5-7 13-1t13-1"/>
           <path data-face="sad" d="M114 182q14-13 28 0"/>
           <ellipse data-face="surprised" cx="128" cy="177" rx="8" ry="10" fill="#5a2a31" stroke-width="4.5"/>
+          <g data-face="excited">
+            <path d="M104 164Q128 171 152 164C152 185 142 197 128 197C114 197 104 185 104 164Z" fill="#5a2a31" stroke="none"/>
+            <path d="M113 189Q128 177 143 189Q136 196.5 128 196.5Q120 196.5 113 189Z" fill="#f58f8f" stroke="none"/>
+            <path d="M104 164Q128 171 152 164C152 185 142 197 128 197C114 197 104 185 104 164Z" stroke-width="4.5"/>
+          </g>
+          <path data-face="loving" d="M115 172q13 11 26 0"/>
+          <path data-face="shy" d="M119 177q4.5-4 9 0t9 0"/>
+          <path data-face="confused" d="M113 179q5-6 10 0t10 0q4 3 9-1"/>
+          <path data-face="proud" d="M114 173q15 9 29-5"/>
           <g data-face="open">
             <ellipse cx="128" cy="176" rx="11" ry="9.5" fill="#5a2a31" stroke="none"/>
             <path d="M120 180.5q8-5.5 16 0q-3 4.5-8 4.5t-8-4.5z" fill="#f58f8f" stroke="none"/>
@@ -119,6 +137,7 @@
         </g>
       </g>
     </g>
+  </g>
   </g>
 
   <g class="pip-fx">
@@ -136,6 +155,15 @@
       <path d="M194 84l14-10"/>
       <path d="M206 108l16-4"/>
     </g>
+    <g data-fx="hearts" fill="#f0717f">
+      <path d="M46 92c-4.5-6.5-13-2-8.5 5l8.5 8l8.5-8c4.5-7-4-11.5-8.5-5z"/>
+      <path d="M212 70c-3.5-5-10-1.5-6.5 4l6.5 6l6.5-6c3.5-5.5-3-9-6.5-4z"/>
+      <path d="M222 112c-3-4.5-8.5-1.5-5.5 3.5l5.5 5l5.5-5c3-5-2.5-8-5.5-3.5z"/>
+    </g>
+    <g data-fx="question" fill="none" stroke="#4f9c77" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M200 58q0-12 12-12t12 11q0 7-8 10q-4 2-4 8"/>
+      <circle cx="212" cy="86" r="2" fill="#4f9c77"/>
+    </g>
     <g data-fx="zzz" fill="none" stroke="#7f9fc4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
       <path d="M192 74h9l-9 11h9"/>
       <path d="M206 52h11.7l-11.7 14.3h11.7"/>
@@ -146,5 +174,6 @@
       <circle cx="202" cy="52" r="6.5"/>
       <circle cx="222" cy="30" r="9"/>
     </g>
+  </g>
   </g>
 </svg>

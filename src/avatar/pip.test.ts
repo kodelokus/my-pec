@@ -61,6 +61,43 @@ describe("PipRenderer", () => {
     expect(svg.dataset.still).toBe("true");
   });
 
+  // avatar FR-036: a reply's mood can set the whole body moving, once; never asleep or holding still.
+  it("moves once with the mood a reply brings, and not while asleep or holding still", async () => {
+    const { renderer, svg } = await pip();
+    renderer.setState(shown({ activity: "speaking", mood: "excited" }));
+    expect(svg.dataset.move).toBe("dance");
+    renderer.setState(shown({ activity: "speaking", mood: "excited", voice: 4 }));
+    vi.advanceTimersByTime(2400);
+    expect(svg.dataset.move).toBeUndefined();
+    renderer.setState(shown({ mood: "excited" }));
+    expect(svg.dataset.move, "the same mood again").toBeUndefined();
+    renderer.setState(shown({ mood: "playful", still: true }));
+    expect(svg.dataset.move).toBeUndefined();
+    renderer.setState(shown({ activity: "sleeping", mood: "proud" }));
+    expect(svg.dataset.move).toBeUndefined();
+    renderer.setState(shown({ mood: "playful" }));
+    expect(svg.dataset.move).toBe("roll");
+    renderer.setState(shown({ activity: "sleeping", mood: "playful" }));
+    expect(svg.dataset.move, "falling asleep stops it").toBeUndefined();
+  });
+
+  // avatar FR-036: idle and awake, it moves on its own now and then; not asleep or in a hidden window.
+  it("moves on its own while idle, but not asleep or hidden", async () => {
+    vi.spyOn(Math, "random").mockReturnValue(0);
+    const { renderer, svg } = await pip();
+    renderer.setState(shown({}));
+    vi.advanceTimersByTime(45_000);
+    expect(svg.dataset.move).toBe("dance");
+    renderer.setState(shown({ activity: "sleeping" }));
+    vi.advanceTimersByTime(45_000);
+    expect(svg.dataset.move).toBeUndefined();
+    renderer.setState(shown({}));
+    vi.spyOn(document, "hidden", "get").mockReturnValue(true);
+    vi.advanceTimersByTime(45_000);
+    expect(svg.dataset.move).toBeUndefined();
+    renderer.dispose();
+  });
+
   // AVA-8: the face turns toward the pointer, but not while holding still or thinking.
   it("follows the pointer only while it may", async () => {
     const { renderer, svg } = await pip();
