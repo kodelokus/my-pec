@@ -48,7 +48,9 @@ fn open(service: &str) -> Result<Entry, Error> {
 /// No credential store elsewhere: every write fails and nothing falls back.
 #[cfg(not(any(windows, target_os = "macos")))]
 fn open(_service: &str) -> Result<Entry, Error> {
-    Err(Error::NoStorageAccess("no credential store on this platform".into()))
+    Err(Error::NoStorageAccess(
+        "no credential store on this platform".into(),
+    ))
 }
 
 impl SecretStore for CredentialManager {

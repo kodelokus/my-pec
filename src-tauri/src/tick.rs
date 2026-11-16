@@ -2,10 +2,10 @@
 //! and the shell rings it as a Windows notification (extensions R4, R5; extensions interfaces).
 
 #[cfg(windows)]
+use crate::show_main;
+#[cfg(windows)]
 use crate::words::words;
 use crate::{AppCtx, notes};
-#[cfg(windows)]
-use crate::show_main;
 use pec_core::ext::Due;
 #[cfg(windows)]
 use pec_ext::alarms::{self, Action};
