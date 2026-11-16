@@ -1275,8 +1275,11 @@ button.file.current {
   margin: 0;
 }
 
+/* The weather sky reaches 28px past each side of the dock (sky.css), more than the gap to the greeting: the dock
+   sits 20px to the left, so the sky ends 16px short of the title and the character stays in the middle of it. */
 .dock {
   position: relative;
+  left: -20px;
   flex: none;
   align-self: stretch;
   display: flex;
