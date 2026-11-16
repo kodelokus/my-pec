@@ -24,6 +24,12 @@ ts-rs = "12"
 # Extensions: local dates and times (already in the tree through Tauri; extensions R4).
 time = "0.3"
 
+# Windows: ONNX Runtime is loaded when search by meaning starts, from Microsoft's onnxruntime.dll next to the app
+# (scripts/windows-runtime.ps1). The prebuilt static library needs AVX2 and BMI2, and its start-up code stopped the
+# whole app on older processors before chat could open (Principle V).
+[target.'cfg(windows)'.dependencies]
+ort = { version = "=2.0.0-rc.15", default-features = false, features = ["load-dynamic"] }
+
 [dev-dependencies]
 tempfile = "3.27.0"
 tokio = { version = "1.54.1", features = ["macros", "rt-multi-thread", "net", "time", "test-util"] }

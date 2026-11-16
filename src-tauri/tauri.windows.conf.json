@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "build": {
+    "beforeDevCommand": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/windows-runtime.ps1 && npm run dev",
+    "beforeBundleCommand": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/windows-runtime.ps1"
+  },
+  "bundle": {
+    "windows": {
+      "nsis": { "installerHooks": "windows/hooks.nsh" }
+    }
+  }
+}

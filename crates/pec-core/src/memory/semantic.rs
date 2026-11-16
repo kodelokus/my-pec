@@ -587,18 +587,40 @@ mod onnx {
         e.to_string()
     }
 
-    /// One ONNX Runtime environment per process, with its telemetry off (Principle II).
+    /// One ONNX Runtime environment per process, with its telemetry off (Principle II). `ort` panics on a library it
+    /// cannot use; that is a model that could not load, not a reason to stop (Principle V).
     fn environment() -> Result<&'static Environment, String> {
         static ENV: OnceLock<Result<Environment, String>> = OnceLock::new();
         ENV.get_or_init(|| {
-            ort::init()
-                .with_name("my-pec")
-                .with_telemetry(false)
-                .build()
-                .map_err(text)
+            std::panic::catch_unwind(|| {
+                builder()?
+                    .with_name("my-pec")
+                    .with_telemetry(false)
+                    .build()
+                    .map_err(text)
+            })
+            .unwrap_or_else(|_| Err("ONNX Runtime could not be loaded".into()))
         })
         .as_ref()
         .map_err(Clone::clone)
+    }
+
+    /// Windows loads Microsoft's `onnxruntime.dll` from beside the app, or from `ORT_DYLIB_PATH`, never the older
+    /// Windows ML copy in System32.
+    #[cfg(windows)]
+    fn builder() -> Result<ort::environment::EnvironmentBuilder, String> {
+        let path = match std::env::var_os("ORT_DYLIB_PATH") {
+            Some(path) if !path.is_empty() => path.into(),
+            _ => std::env::current_exe()
+                .map_err(text)?
+                .with_file_name("onnxruntime.dll"),
+        };
+        ort::init_from(path).map_err(text)
+    }
+
+    #[cfg(not(windows))]
+    fn builder() -> Result<ort::environment::EnvironmentBuilder, String> {
+        Ok(ort::init())
     }
 
     pub(super) fn load(dir: &Path) -> Result<Box<dyn Embedder>, String> {

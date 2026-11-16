@@ -580,7 +580,8 @@ async fn an_unreachable_source_or_a_cancel_keeps_what_was_downloaded() {
     assert!(core.remove_semantic_model().is_ok());
 }
 
-/// Runs the real model when `MYPEC_MODEL_DIR` points at its files: a manual smoke check, never in CI.
+/// Runs the real model when `MYPEC_MODEL_DIR` points at its files: a manual smoke check, never in CI. On Windows,
+/// `ORT_DYLIB_PATH` also points at `onnxruntime.dll` (scripts/windows-runtime.ps1 puts one in `target/debug`).
 #[tokio::test]
 #[ignore = "needs the real model files"]
 async fn the_real_model_finds_meaning() {
